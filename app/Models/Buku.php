@@ -15,6 +15,8 @@ class Buku extends Model
     // protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $guarded = [];
+
     public function kategori(){
         return $this->belongsTo(Kategori::class, 'idkategori', 'idkategori');
     }

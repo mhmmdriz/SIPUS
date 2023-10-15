@@ -7,7 +7,7 @@ use App\Models\Kategori;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -41,7 +41,7 @@ class BukuController extends Controller
      */
     public function create()
     {
-        return view('add_book',[
+        return view('buku.create',[
             "categories" => Kategori::get(),
         ]);
     }
@@ -52,25 +52,32 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'isbn' => 'required|unique:books|regex:/^\d-\d{3}-\d{5}-\d$/',
-            'title' => 'required|max:255',
-            'categoryid' => 'required',
-            'author' => 'required',
-            'price' => 'required|numeric'
+            'isbn' => 'required|unique:buku|regex:/^\d-\d{3}-\d{5}-\d$/',
+            'judul' => 'required|max:255',
+            'idkategori' => 'required',
+            'pengarang' => 'required',
+            'penerbit' => 'required',
+            'kota_terbit' => 'required',
+            'editor' => 'required',
+            'file_gambar' => 'required'
         ]);
+
+        if($request->file('file_gambar')){
+            $validatedData['file_gambar'] = $request->file('file_gambar')->store('images');
+        }
 
         Buku::create($validatedData);
 
-        return redirect('/books');
+        return redirect('/buku');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Buku $book)
+    public function edit(Buku $buku)
     {
-        return view('edit_book',[
-            "book" => $book,
+        return view('buku.edit',[
+            "buku" => $buku,
             "categories" => Kategori::get(),
         ]);
     }
@@ -78,33 +85,47 @@ class BukuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Buku $book)
+    public function update(Request $request, Buku $buku)
     {
         $rules = [
-            'title' => 'required|max:255',
-            'categoryid' => 'required',
-            'author' => 'required',
-            'price' => 'required|numeric'
+            'judul' => 'required|max:255',
+            'idkategori' => 'required',
+            'pengarang' => 'required',
+            'penerbit' => 'required',
+            'kota_terbit' => 'required',
+            'editor' => 'required',
+            
         ];
 
-        if($request->isbn != $book->isbn){
-            $rules['isbn'] = 'required|unique:books|regex:/^\d-\d{3}-\d{5}-\d$/';
+        if($request->isbn != $buku->isbn){
+            $rules['isbn'] = 'required|unique:buku|regex:/^\d-\d{3}-\d{5}-\d$/';
         }
 
         $validatedData = $request->validate($rules);
 
-        Buku::where('isbn',$book->isbn)->update($validatedData);
+        if($request->file('file_gambar')){
+            if($buku->file_gambar){
+                Storage::delete($buku->file_gambar);
+            }
+            $validatedData['file_gambar'] = $request->file('file_gambar')->store('images');
+        }
 
-        return redirect('/books');
+        Buku::where('isbn',$buku->isbn)->update($validatedData);
+
+        return redirect('/buku');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Buku $book)
+    public function destroy(Buku $buku)
     {
-        Buku::where('isbn',$book->isbn)->delete();
+        if($buku->file_gambar){
+            Storage::delete($buku->file_gambar);
+        }
         
-        return redirect('/books');
+        Buku::where('isbn',$buku->isbn)->delete();
+        
+        return redirect('/buku');
     }
 }
