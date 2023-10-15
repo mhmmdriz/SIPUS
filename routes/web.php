@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BukuController;
+use App\Http\Controllers\PreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
+
+Route::resource('/buku', BukuController::class);
+
+Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
+Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
