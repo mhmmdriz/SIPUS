@@ -5,7 +5,7 @@
 <h3>Data Buku</h3>
 <hr>
 
-<a  class="btn btn-primary mb-4" href="/buku/create">+ Add Book Data</a>
+<a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
 <table class="table table-striped">
   <tr>

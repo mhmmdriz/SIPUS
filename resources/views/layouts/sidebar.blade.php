@@ -32,8 +32,8 @@
             <span class="text nav-text">Buku</span>
           </a>
         </li>
-        <li class="nav-link">
-          <a href="{{ Request::is('kategori*') ? 'active' : '' }}">
+        <li class="nav-link {{ Request::is('kategori*') ? 'active' : '' }}">
+          <a href="/kategori">
             <i class="bx bx-category icon"></i>
             <span class="text nav-text">Kategori Buku</span>
           </a>

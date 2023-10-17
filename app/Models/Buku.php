@@ -12,7 +12,6 @@ class Buku extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'idbuku';
-    // protected $keyType = 'string';
     public $incrementing = false;
 
     protected $guarded = [];
