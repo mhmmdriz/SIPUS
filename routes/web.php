@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\PreferenceController;
 
 /*
@@ -22,6 +23,9 @@ Route::get('/', function () {
 
 Route::resource('/buku', BukuController::class);
 Route::resource('/kategori', KategoriController::class);
+Route::resource('/anggota', AnggotaController::class);
 
 Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
 Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
+
+Route::get('change-status/{noktp}',[AnggotaController::class,'changeStatus']);

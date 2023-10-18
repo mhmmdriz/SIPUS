@@ -38,6 +38,12 @@
             <span class="text nav-text">Kategori Buku</span>
           </a>
         </li>
+        <li class="nav-link {{ Request::is('anggota*') ? 'active' : '' }}">
+          <a href="/anggota">
+            <i class="bx bx-group icon"></i>
+            <span class="text nav-text">Anggota</span>
+          </a>
+        </li>
       </ul>
     </div>
 
