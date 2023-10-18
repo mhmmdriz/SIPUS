@@ -7,6 +7,7 @@
 
 <a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
+<div class="overflow-auto">
 <table class="table table-striped">
   <tr>
     <th>No</th>
@@ -47,7 +48,7 @@
     @endphp
   @endforeach
 </table>
-<br>
+</div>
 <p>Total Rows = {{ $i-1 }}</p>
 
 

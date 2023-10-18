@@ -7,7 +7,7 @@
 
 <a  class="btn btn-primary mb-4" href="/kategori/create">+ Tambah Data Kategori</a>
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-6 overflow-auto">
 
     <table class="table table-striped">
       <tr>
