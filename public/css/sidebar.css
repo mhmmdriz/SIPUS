@@ -320,4 +320,12 @@ body.dark hr{
   width: 200px;
 }
 
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
+th, td {
+  border: 1px solid #000;
+  border-radius: 5px; /* Ubah nilai ini sesuai preferensi Anda */
+}
