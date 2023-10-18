@@ -17,12 +17,12 @@
       </tr>
       
       @php
-        $i = 1;
+        $i = 0;
       @endphp
     
       @foreach ($categories as $category)
         <tr>
-          <td>{{ $i }}</td>
+          <td>{{ ++$i }}</td>
           <td>{{ $category->nama }}</td>
           <td>
             <a class="btn btn-warning btn-sm" href="/kategori/{{ $category->idkategori }}/edit">Edit</a>
@@ -35,13 +35,10 @@
             </form>
           </td>
         </tr>
-        @php
-          $i++;
-        @endphp
       @endforeach
     </table>
     <br>
-    <p>Total Rows = {{ $i-1 }}</p>
+    <p>Total Rows = {{ $i }}</p>
   </div>
 </div>
 

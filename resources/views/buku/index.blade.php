@@ -20,12 +20,12 @@
   </tr>
   
   @php
-    $i = 1;
+    $i = 0;
   @endphp
 
   @foreach ($books as $book)
     <tr>
-      <td>{{ $i }}</td>
+      <td>{{ ++$i }}</td>
       <td>{{ $book->isbn }}</td>
       <td>{{ $book->judul }}</td>
       <td>{{ $book->kategori }}</td>
@@ -43,13 +43,10 @@
         </form>
       </td>
     </tr>
-    @php
-      $i++;
-    @endphp
   @endforeach
 </table>
 </div>
-<p>Total Rows = {{ $i-1 }}</p>
+<p>Total Rows = {{ $i }}</p>
 
 
 @endsection
