@@ -5,6 +5,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\PreferenceController;
+use App\Http\Controllers\PengembalianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,10 @@ Route::get('/', function () {
 Route::resource('/buku', BukuController::class);
 Route::resource('/kategori', KategoriController::class);
 Route::resource('/anggota', AnggotaController::class);
+Route::resource('/pengembalian', PengembalianController::class);
 
 Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
 Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
+Route::post('/pengembalian/kembalikan', [PengembalianController::class, 'pengembalianBuku']);
 
 Route::get('change-status/{noktp}',[AnggotaController::class,'changeStatus']);
