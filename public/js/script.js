@@ -89,6 +89,26 @@ modeSwitch.addEventListener("click", () =>{
 
 })
 
+let imgPreview = document.querySelector('.img-preview');
+  imgPreview.style.width = '200px';
+  
+  function previewImage(){
+    // tangkap inputan imagenya yang berasal dari input dengan id="image"
+    let image = document.querySelector('#file_gambar');
+    // ambil tag img kosong tadi
+    let imgPreview = document.querySelector('.img-preview');
+
+    imgPreview.style.display = 'block';
+    imgPreview.style.width = '200px';
+
+    // ambil data gambar
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(image.files[0]);
+
+    oFReader.onload = function(oFREvent){
+      imgPreview.src = oFREvent.target.result;
+    }
+  }
 
 
 document.addEventListener("DOMContentLoaded", function () {
