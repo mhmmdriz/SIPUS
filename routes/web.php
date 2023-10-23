@@ -29,6 +29,7 @@ Route::resource('/pengembalian', PengembalianController::class);
 
 Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
 Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
-Route::post('/pengembalian/kembalikan', [PengembalianController::class, 'pengembalianBuku']);
 
 Route::get('change-status/{noktp}',[AnggotaController::class,'changeStatus']);
+Route::post('/pengembalian/kembalikan', [PengembalianController::class, 'pengembalianBuku']);
+Route::post('/pengembalian/batal', [PengembalianController::class, 'batalPengembalian'])->name('pengembalian.batal');
