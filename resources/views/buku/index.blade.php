@@ -5,6 +5,13 @@
 <h3>Data Buku</h3>
 <hr>
 
+@if (session()->has('success'))
+  <div class="alert alert-success alert-dismissible fade show col-md-3" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
 <div class="overflow-auto">
