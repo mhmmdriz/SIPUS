@@ -15,7 +15,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $categories = Kategori::get();
+        $categories = Kategori::selectRaw('kategori.idkategori, kategori.nama, COUNT(buku.idbuku) AS total_buku')
+        ->leftJoin('buku', 'buku.idkategori', '=', 'kategori.idkategori')->groupBy('kategori.idkategori', 'kategori.nama')->get();
 
         return view('kategori.index',[
             "categories" => $categories,
@@ -41,7 +42,7 @@ class KategoriController extends Controller
 
         Kategori::create($validatedData);
 
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success','Data Kategori Berhasil Disimpan');
     }
 
     /**
@@ -74,7 +75,7 @@ class KategoriController extends Controller
 
         Kategori::where('idkategori',$kategori->idkategori)->update($validatedData);
 
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success','Data Kategori Berhasil Diedit');
     }
 
     /**
@@ -84,6 +85,6 @@ class KategoriController extends Controller
     {
         Kategori::where('idkategori',$kategori->idkategori)->delete();
         
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success','Data Kategori Berhasil Dihapus');
     }
 }
