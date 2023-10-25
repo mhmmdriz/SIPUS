@@ -59,8 +59,11 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'kota_terbit' => 'required',
             'editor' => 'required',
-            'file_gambar' => 'required'
+            'file_gambar' => 'required',
+            'stok' => 'required|numeric|min:1'
         ]);
+
+        $validatedData['stok_tersedia'] = $validatedData['stok'];
 
         if($request->file('file_gambar')){
             $validatedData['file_gambar'] = $request->file('file_gambar')->store('images');
@@ -68,7 +71,7 @@ class BukuController extends Controller
 
         Buku::create($validatedData);
 
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Ditambahkan');
     }
 
     /**
@@ -94,7 +97,8 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'kota_terbit' => 'required',
             'editor' => 'required',
-            
+            'stok' => 'required|numeric|min:0',
+            'stok_tersedia' => 'required|numeric|min:0|lte:stok'
         ];
 
         if($request->isbn != $buku->isbn){
@@ -112,7 +116,7 @@ class BukuController extends Controller
 
         Buku::where('isbn',$buku->isbn)->update($validatedData);
 
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Diedit');
     }
 
     /**
@@ -126,6 +130,6 @@ class BukuController extends Controller
         
         Buku::where('isbn',$buku->isbn)->delete();
         
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Dihapus');
     }
 }

@@ -101,6 +101,15 @@
                           </div>
                       @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="stok" class="form-label">Stok Buku</label>
+                        <input type="number" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="{{ old('stok') }}">
+                        @error('stok')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
         
                     <button type="submit" class="btn btn-primary" name="submit">Tambah Data</button>
                 </form>

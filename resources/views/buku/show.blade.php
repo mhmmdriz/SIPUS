@@ -33,6 +33,10 @@
         <p>{{ $book->kota_terbit }}</p>
         <h5>Editor</h5>
         <p>{{ $book->editor }}</p>
+        <h5>Stok Total</h5>
+        <p>{{ $book->stok }}</p>
+        <h5>Stok Tersedia</h5>
+        <p>{{ $book->stok_tersedia }}</p>
       </div>
     </div>
   </div>
