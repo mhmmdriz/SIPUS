@@ -7,7 +7,7 @@ use App\Models\Peminjaman;
 use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\Session; // Tambahkan use statement untuk Session
 
-class PengembalianController extends Controller
+class TransaksiController extends Controller
 {
     public function index()
     {
@@ -103,5 +103,14 @@ class PengembalianController extends Controller
 
             return redirect('/pengembalian');
         }
+    }
+
+    public function viewTransaksi()
+    {
+        // Ambil data peminjaman dan detail transaksi
+        $peminjaman = Peminjaman::all();
+        $detailTransaksi = DetailTransaksi::all();
+
+        return view('view_transaksi.index', compact('peminjaman', 'detailTransaksi'));
     }
 }
