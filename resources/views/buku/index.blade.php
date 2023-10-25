@@ -14,7 +14,7 @@
 
 <a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
-<div class="overflow-auto">
+<div class="table-responsive">
 <table class="table table-striped" id="tabel_buku">
   <tr>
     <th>No</th>
