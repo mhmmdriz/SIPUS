@@ -15,7 +15,7 @@
 <a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
 <div class="overflow-auto">
-<table class="table table-striped">
+<table class="table table-striped" id="tabel_buku">
   <tr>
     <th>No</th>
     <th>ISBN</th>
@@ -23,6 +23,8 @@
     <th>Kategori</th>
     <th>Pengarang</th>
     <th>Penerbit</th>
+    <th>Stok Total</th>
+    <th>Stok Tersedia</th>
     <th>Action</th>
   </tr>
   
@@ -38,6 +40,8 @@
       <td>{{ $book->kategori }}</td>
       <td>{{ $book->pengarang }}</td>
       <td>{{ $book->penerbit }}</td>
+      <td>{{ $book->stok }}</td>
+      <td>{{ $book->stok_tersedia }}</td>
       <td>
         <a class="btn btn-primary btn-sm" href="/buku/{{ $book->isbn }}">Detail</a>
         <a class="btn btn-warning btn-sm" href="/buku/{{ $book->isbn }}/edit">Edit</a>

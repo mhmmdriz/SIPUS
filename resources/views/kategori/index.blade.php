@@ -16,11 +16,11 @@
 <div class="row">
   <div class="col-md-6 overflow-auto">
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="tabel_kategori">
       <tr>
         <th>No</th>
         <th>Kategori</th>
-        <th>Total Buku</th>
+        <th>Total Buku (Per Judul)</th>
         <th>Action</th>
       </tr>
       

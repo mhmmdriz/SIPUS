@@ -59,8 +59,11 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'kota_terbit' => 'required',
             'editor' => 'required',
-            'file_gambar' => 'required'
+            'file_gambar' => 'required',
+            'stok' => 'required|numeric|min:1'
         ]);
+
+        $validatedData['stok_tersedia'] = $validatedData['stok'];
 
         if($request->file('file_gambar')){
             $validatedData['file_gambar'] = $request->file('file_gambar')->store('images');
@@ -94,7 +97,8 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'kota_terbit' => 'required',
             'editor' => 'required',
-            
+            'stok' => 'required|numeric|min:0',
+            'stok_tersedia' => 'required|numeric|min:0|lte:stok'
         ];
 
         if($request->isbn != $buku->isbn){

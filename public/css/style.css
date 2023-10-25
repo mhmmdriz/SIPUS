@@ -323,9 +323,31 @@ body.dark hr{
 table {
   border-collapse: separate;
   border-spacing: 0;
+  width:100%;
 }
 
 th, td {
   border: 1px solid #000;
-  border-radius: 5px; /* Ubah nilai ini sesuai preferensi Anda */
+  border-radius: 5px;
+}
+
+#tabel_buku td:nth-child(7),
+#tabel_buku td:nth-child(8) {
+  width: 8%;
+}
+
+#tabel_buku td:nth-child(1) {
+  width: 4%;
+}
+
+#tabel_buku td:nth-child(2) {
+  width: 9%;
+}
+
+#tabel_buku td:nth-child(9) {
+  width: 12%;
+}
+
+#tabel_kategori td:nth-child(3) {
+  width: 23%;
 }
