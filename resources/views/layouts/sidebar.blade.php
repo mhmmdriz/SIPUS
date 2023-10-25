@@ -1,4 +1,4 @@
-{{-- @dd({{ Cookie::get('nama_cookie') }}) --}}
+
 <nav class="sidebar {{ Cookie::get('sidebar') }}" id="sidebar">
   <header>
     <div class="image-text">
