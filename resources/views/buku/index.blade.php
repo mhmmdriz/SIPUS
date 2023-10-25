@@ -6,7 +6,7 @@
 <hr>
 
 @if (session()->has('success'))
-  <div class="alert alert-success alert-dismissible fade show col-md-3" role="alert">
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
     {{ session('success') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
@@ -43,15 +43,11 @@
       <td>{{ $book->stok }}</td>
       <td>{{ $book->stok_tersedia }}</td>
       <td>
-        <a class="btn btn-primary btn-sm" href="/buku/{{ $book->isbn }}">Detail</a>
-        <a class="btn btn-warning btn-sm" href="/buku/{{ $book->isbn }}/edit">Edit</a>
-        <form action="/buku/{{ $book->isbn }}" method="post" class="d-inline">
-          @method('delete')
-          @csrf
-          <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-            Delete
-          </button>
-        </form>
+        <a class="btn btn-primary btn-sm mb-1" href="/buku/{{ $book->isbn }}">Detail</a>
+        <a class="btn btn-warning btn-sm mb-1" href="/buku/{{ $book->isbn }}/edit">Edit</a>
+        
+        <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Hapus</button>
+        
       </td>
     </tr>
   @endforeach
@@ -59,6 +55,32 @@
 </div>
 <p>Total Rows = {{ $i }}</p>
 
+<!-- Modal masih salah -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Hapus Buku</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin menghapus buku berjudul {{ $book->judul }} ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="/buku/{{ $book->isbn }}" method="post" class="d-inline">
+          @method('delete')
+          @csrf
+          <button class="btn btn-danger">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/modal-del.js"></script>
 
 @endsection
 
