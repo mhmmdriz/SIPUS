@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\view_transaksiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
@@ -26,6 +27,7 @@ Route::resource('/buku', BukuController::class);
 Route::resource('/kategori', KategoriController::class);
 Route::resource('/anggota', AnggotaController::class);
 Route::resource('/pengembalian', PengembalianController::class);
+Route::resource('/view_transaksi', view_transaksiController::class);
 
 Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
 Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
