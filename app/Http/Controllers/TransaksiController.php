@@ -12,10 +12,31 @@ class TransaksiController extends Controller
     public function index()
     {
         // Ambil data peminjaman dan detail transaksi
-        $peminjaman = Peminjaman::all();
-        $detailTransaksi = DetailTransaksi::all();
+        $transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')
+        ->get();
 
-        return view('pengembalian.index', compact('peminjaman', 'detailTransaksi'));
+        $transaksi_selesai = [];
+        $transaksi_belum_selesai = [];
+
+        foreach ($transaksi as $t) {
+            $row = [];
+            $row['idtransaksi'] = $t->idtransaksi;
+            $row['noktp'] = $t->noktp;
+            $row['idbuku'] = $t->idbuku;
+            $row['tgl_pinjam'] = $t->tgl_pinjam;
+            $row['tgl_kembali'] = $t->tgl_kembali;
+            $row['denda'] = $t->denda;
+            $row['id_petugas'] = $t->id_petugas;
+
+            if($t->tgl_kembali == null){
+                $transaksi_belum_selesai [] = (object) $row;
+            }else{
+                $transaksi_selesai [] = (object) $row;
+            }
+        }
+        // dump($transaksi_belum_selesai);
+        // dd($transaksi_selesai);
+        return view('pengembalian.index', compact('transaksi_selesai', 'transaksi_belum_selesai'));
     }
 
     public function pengembalianBuku(Request $request)

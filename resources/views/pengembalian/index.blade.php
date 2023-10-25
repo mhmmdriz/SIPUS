@@ -38,34 +38,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($peminjaman as $p)
-            @if (!$p->detailTransaksi->first()->tgl_kembali)
-            <tr class="peminjaman-row" data-idtransaksi="{{ $p->idtransaksi }}">
-                <td>{{ $p->idtransaksi }}</td>
-                <td>{{ $p->noktp }}</td>
-                @foreach($p->detailTransaksi as $detailTransaksi)
-                    <td>{{ $detailTransaksi->idbuku }}</td>
-                @endforeach
-                <td>{{ $p->tgl_pinjam }}</td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ $detailTransaksi->tgl_kembali }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ number_format($detailTransaksi->denda, 0, ",", ".") }}
-                    @endforeach
-                </td>
-                <td>
-                    <form method="post" action="{{ url('/pengembalian/kembalikan') }}">
-                        @csrf
-                        <input type="hidden" name="idtransaksi" value="{{ $p->idtransaksi }}">
-                        <button type="submit" class="btn btn-primary">Terima Pengembalian</button>
-                    </form>
-                </td>
-            </tr>
-            @endif
+            @foreach($transaksi_belum_selesai as $ts)
+                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
+                    <td>{{ $ts->idtransaksi }}</td>
+                    <td>{{ $ts->noktp }}</td>
+                    <td>{{ $ts->idbuku }}</td>
+                    <td>{{ $ts->tgl_pinjam }}</td>
+                    <td>{{ $ts->tgl_kembali }}</td>
+                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
+                    <td>
+                        <form method="post" action="{{ url('/pengembalian/kembalikan') }}">
+                            @csrf
+                            <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
+                            <button type="submit" class="btn btn-primary">Terima Pengembalian</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
         </table>
@@ -88,34 +76,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($peminjaman as $p)
-                @if ($p->detailTransaksi->first()->tgl_kembali)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $p->idtransaksi }}">
-                    <td>{{ $p->idtransaksi }}</td>
-                    <td>{{ $p->noktp }}</td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        <td>{{ $detailTransaksi->idbuku }}</td>
-                    @endforeach
-                    <td>{{ $p->tgl_pinjam }}</td>
-                    <td>
-                        @foreach($p->detailTransaksi as $detailTransaksi)
-                            {{ $detailTransaksi->tgl_kembali }}
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach($p->detailTransaksi as $detailTransaksi)
-                            {{ number_format($detailTransaksi->denda, 0, ",", ".") }}
-                        @endforeach
-                    </td>
+                @foreach($transaksi_selesai as $ts)
+                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
+                    <td>{{ $ts->idtransaksi }}</td>
+                    <td>{{ $ts->noktp }}</td>
+                    <td>{{ $ts->idbuku }}</td>
+                    <td>{{ $ts->tgl_pinjam }}</td>
+                    <td>{{ $ts->tgl_kembali }}</td>
+                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
                     <td>
                         <form method="post" action="{{ url('/pengembalian/batal') }}">
                             @csrf
-                            <input type="hidden" name="idtransaksi" value="{{ $p->idtransaksi }}">
+                            <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
                             <button type="submit" class="btn btn-danger">Batalkan Pengembalian</button>
                         </form>
                     </td>
                 </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>
