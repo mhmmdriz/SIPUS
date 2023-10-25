@@ -5,7 +5,7 @@
 <h3>Pendaftar</h3>
 <hr>
 
-<div class="overflow-auto">
+<div class="table-responsive">
 <table class="table table-striped">
   <tr>
     <th>No</th>
@@ -52,7 +52,7 @@
 <h3>Daftar Anggota</h3>
 <hr>
 
-<div class="overflow-auto">
+<div class="table-responsive">
 <table class="table table-striped">
   <tr>
     <th>No</th>
