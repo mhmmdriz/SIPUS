@@ -105,12 +105,12 @@ class TransaksiController extends Controller
         }
     }
 
-    public function viewTransaksi()
+    public function riwayatTransaksi()
     {
         // Ambil data peminjaman dan detail transaksi
         $peminjaman = Peminjaman::all();
         $detailTransaksi = DetailTransaksi::all();
 
-        return view('view_transaksi.index', compact('peminjaman', 'detailTransaksi'));
+        return view('riwayat_transaksi.index', compact('peminjaman', 'detailTransaksi'));
     }
 }

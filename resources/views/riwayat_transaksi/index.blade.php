@@ -2,7 +2,7 @@
 
 @section('container')
 
-<h3>Daftar Transaksi</h3>
+<h3>Riwayat Transaksi</h3>
 <hr>
 
 <h3>Transaksi Sudah Selesai</h3>

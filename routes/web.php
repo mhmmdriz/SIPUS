@@ -26,7 +26,7 @@ Route::resource('/buku', BukuController::class);
 Route::resource('/kategori', KategoriController::class);
 Route::resource('/anggota', AnggotaController::class);
 Route::resource('/pengembalian', TransaksiController::class);
-Route::get('/view-transaksi', [TransaksiController::class, 'viewTransaksi']);
+Route::get('/riwayat-transaksi', [TransaksiController::class, 'riwayatTransaksi']);
 
 Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
 Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
