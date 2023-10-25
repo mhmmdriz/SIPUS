@@ -14,9 +14,9 @@
 
 <a  class="btn btn-primary mb-4" href="/kategori/create">+ Tambah Data Kategori</a>
 <div class="row">
-  <div class="col-md-6 overflow-auto">
+  <div class="table-responsive">
 
-    <table class="table table-striped" id="tabel_kategori">
+    <table class="table table-striped w-auto" id="tabel_kategori">
       <tr>
         <th>No</th>
         <th>Kategori</th>
