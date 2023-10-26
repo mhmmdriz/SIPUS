@@ -46,7 +46,7 @@
         <a class="btn btn-primary btn-sm mb-1" href="/buku/{{ $book->isbn }}">Detail</a>
         <a class="btn btn-warning btn-sm mb-1" href="/buku/{{ $book->isbn }}/edit">Edit</a>
         
-        <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Hapus</button>
+        <button type="button" class="btn btn-danger btn-sm mb-1 delete-book-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-buku-isbn="{{ $book->isbn }}" data-buku-judul="{{ $book->judul }}">Hapus</button>
         
       </td>
     </tr>
@@ -64,11 +64,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Apakah Anda yakin menghapus buku berjudul {{ $book->judul }} ?
+        Apakah Anda yakin menghapus buku berjudul <span id="judulBuku"></span> (ISBN: <span id="isbnBuku"></span>)?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form action="/buku/{{ $book->isbn }}" method="post" class="d-inline">
+        <form action="" method="post" id="deleteBookForm" class="d-inline">
           @method('delete')
           @csrf
           <button class="btn btn-danger">

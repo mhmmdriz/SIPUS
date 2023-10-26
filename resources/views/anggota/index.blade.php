@@ -36,14 +36,18 @@
       <td>{{ ++$i }}</td>
       <td>{{ $applicant->noktp }}</td>
       <td>{{ $applicant->nama }}</td>
-      <td>{{ $applicant->password }}</td>
+      <td>{{ "<hidden>" }}</td>
       <td>{{ $applicant->alamat }}</td>
       <td>{{ $applicant->kota }}</td>
       <td>{{ $applicant->email }}</td>
       <td>{{ $applicant->no_telp }}</td>
       <td>{{ ($applicant->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
       <td>
-        <a class="btn btn-primary btn-sm mb-1" href="/change-status/{{ $applicant->noktp }}">Terima</a>
+        <form method="post" action="{{ url('/anggota/change-status') }}">
+          @csrf
+          <input type="hidden" name="noktp" value="{{ $applicant->noktp }}">
+          <button type="submit" class="btn btn-primary btn-sm mb-1">Terima</button>
+        </form>
         <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $applicant->noktp }}">Detail</a>
       </td>
     </tr>
@@ -82,14 +86,14 @@
       <td>{{ ++$i }}</td>
       <td>{{ $member->noktp }}</td>
       <td>{{ $member->nama }}</td>
-      <td>{{ $member->password }}</td>
+      <td>{{ "<hidden>" }}</td>
       <td>{{ $member->alamat }}</td>
       <td>{{ $member->kota }}</td>
       <td>{{ $member->email }}</td>
       <td>{{ $member->no_telp }}</td>
       <td>{{ ($member->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
       <td>
-        <button type="button" class="btn btn-danger btn-sm mb-1 delete-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $member->noktp }}" data-member-name="{{ $member->nama }}">Hapus</button>
+        <button type="button" class="btn btn-danger btn-sm mb-1 delete-anggota-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $member->noktp }}" data-member-name="{{ $member->nama }}">Hapus</button>
 
         <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $member->noktp }}">Detail</a>
         {{-- <form action="/anggota/{{ $member->noktp }}" method="post" class="d-inline">
@@ -120,7 +124,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a id="deleteMemberButton" class="btn btn-danger">Hapus</a>
+        <form method="post" action="{{ url('/anggota/change-status') }}">
+          @csrf
+          <input type="hidden" id="noktp" name="noktp" value="">
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
       </div>
     </div>
   </div>
