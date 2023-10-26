@@ -17,30 +17,20 @@
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Denda</th>
+                <th>ID Petugas</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($peminjaman as $p)
-            @if ($p->detailTransaksi->first()->tgl_kembali)
-            <tr class="peminjaman-row" data-idtransaksi="{{ $p->idtransaksi }}">
-                <td>{{ $p->idtransaksi }}</td>
-                <td>{{ $p->noktp }}</td>
-                @foreach($p->detailTransaksi as $detailTransaksi)
-                    <td>{{ $detailTransaksi->idbuku }}</td>
-                @endforeach
-                <td>{{ $p->tgl_pinjam }}</td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ $detailTransaksi->tgl_kembali }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ number_format($detailTransaksi->denda, 0, ",", ".") }}
-                    @endforeach
-                </td>
-            </tr>
-            @endif
+            @foreach($transaksi_selesai as $ts)
+                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
+                    <td>{{ $ts->idtransaksi }}</td>
+                    <td>{{ $ts->noktp }}</td>
+                    <td>{{ $ts->idbuku }}</td>
+                    <td>{{ $ts->tgl_pinjam }}</td>
+                    <td>{{ $ts->tgl_kembali }}</td>
+                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
+                    <td>{{ $ts->id_petugas }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>
@@ -57,30 +47,20 @@
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Denda</th>
+                <th>ID Petugas</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($peminjaman as $p)
-            @if (!$p->detailTransaksi->first()->tgl_kembali && now()->diffInDays($p->tgl_pinjam) <= 14)
-            <tr class="peminjaman-row" data-idtransaksi="{{ $p->idtransaksi }}">
-                <td>{{ $p->idtransaksi }}</td>
-                <td>{{ $p->noktp }}</td>
-                @foreach($p->detailTransaksi as $detailTransaksi)
-                    <td>{{ $detailTransaksi->idbuku }}</td>
-                @endforeach
-                <td>{{ $p->tgl_pinjam }}</td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ $detailTransaksi->tgl_kembali }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ number_format($detailTransaksi->denda, 0, ",", ".") }}
-                    @endforeach
-                </td>
-            </tr>
-            @endif
+            @foreach($transaksi_belum_selesai as $ts)
+                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
+                    <td>{{ $ts->idtransaksi }}</td>
+                    <td>{{ $ts->noktp }}</td>
+                    <td>{{ $ts->idbuku }}</td>
+                    <td>{{ $ts->tgl_pinjam }}</td>
+                    <td>{{ $ts->tgl_kembali }}</td>
+                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
+                    <td>{{ $ts->id_petugas }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>
@@ -96,34 +76,20 @@
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Denda</th>
+                <th>ID Petugas</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($peminjaman as $p)
-            @if (!$p->detailTransaksi->first()->tgl_kembali && now()->diffInDays($p->tgl_pinjam) > 14)
-            <tr class="peminjaman-row" data-idtransaksi="{{ $p->idtransaksi }}">
-                <td>{{ $p->idtransaksi }}</td>
-                <td>{{ $p->noktp }}</td>
-                @foreach($p->detailTransaksi as $detailTransaksi)
-                    <td>{{ $detailTransaksi->idbuku }}</td>
-                @endforeach
-                <td>{{ $p->tgl_pinjam }}</td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        {{ $detailTransaksi->tgl_kembali }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($p->detailTransaksi as $detailTransaksi)
-                        @php
-                            $extraDenda = now()->diffInDays($p->tgl_pinjam) - 14;
-                            $denda = $detailTransaksi->denda + ($extraDenda * 1000);
-                        @endphp
-                        {{ number_format($denda, 0, ",", ".") }}
-                    @endforeach
-                </td>
-            </tr>
-            @endif
+            @foreach($transaksi_belum_selesai_denda as $ts)
+                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
+                    <td>{{ $ts->idtransaksi }}</td>
+                    <td>{{ $ts->noktp }}</td>
+                    <td>{{ $ts->idbuku }}</td>
+                    <td>{{ $ts->tgl_pinjam }}</td>
+                    <td>{{ $ts->tgl_kembali }}</td>
+                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
+                    <td>{{ $ts->id_petugas }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>
