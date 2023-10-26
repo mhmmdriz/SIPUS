@@ -7,7 +7,8 @@
 
 <h3>Transaksi Sudah Selesai</h3>
 
-    <!-- Tabel Daftar Pengembalian -->
+<!-- Tabel Daftar Pengembalian -->
+<div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -44,10 +45,12 @@
             @endforeach
         </tbody>
     </table>
+</div>
 
 <h3>Transaksi Dalam Proses</h3>
 
-    <!-- Tabel Daftar Pengembalian -->
+<!-- Tabel Daftar Pengembalian -->
+<div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -84,9 +87,12 @@
             @endforeach
         </tbody>
     </table>
+</div>
 
 <h3>Transaksi Dalam Proses + Denda</h3>
-    <!-- Tabel Daftar Pengembalian -->
+    
+<!-- Tabel Daftar Pengembalian -->
+<div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -127,6 +133,6 @@
             @endforeach
         </tbody>
     </table>
-
+</div>
 
 @endsection

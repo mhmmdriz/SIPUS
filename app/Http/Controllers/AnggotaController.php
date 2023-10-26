@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Anggota;
 use App\Http\Requests\StoreAnggotaRequest;
 use App\Http\Requests\UpdateAnggotaRequest;
@@ -68,16 +69,17 @@ class AnggotaController extends Controller
         //
     }
 
-    public function changeStatus($noktp)
+    public function changeStatus(Request $request)
     {
+        $noktp = $request->input('noktp');
         $anggota = Anggota::find($noktp);
 
         if ($anggota->status){
             $anggota->status = 0;
-            $message = 'Anggota Berhasil Dihapus';
+            $message = 'Anggota Bernama '. $anggota->nama .' Berhasil Dihapus Dari Daftar Anggota';
         } else {
             $anggota->status = 1;
-            $message = 'Pendaftar Berhasil Ditambahkan Sebagai Anggota';
+            $message = 'Pendaftar Bernama '. $anggota->nama .' Berhasil Ditambahkan Sebagai Anggota';
         }
         $anggota->save();
 

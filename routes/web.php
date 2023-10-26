@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sidebar', [PreferenceController::class, 'sidebarCookie'])->name("sidebar");
     Route::post('/theme', [PreferenceController::class, 'themeCookie'])->name("theme");
     
-    Route::get('change-status/{noktp}',[AnggotaController::class,'changeStatus']);
+    Route::post('/anggota/change-status',[AnggotaController::class,'changeStatus']);
     Route::post('/pengembalian/kembalikan', [TransaksiController::class, 'pengembalianBuku']);
     Route::post('/pengembalian/batal', [TransaksiController::class, 'batalPengembalian'])->name('pengembalian.batal');
 });
