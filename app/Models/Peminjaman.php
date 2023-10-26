@@ -8,11 +8,16 @@ class Peminjaman extends Model
 {
     protected $table = 'peminjaman';
     protected $primaryKey = 'idtransaksi';
-    protected $fillable = ['noktp', 'tgl_pinjam', 'tgl_kembali'];
-
+    protected $guarded = [];
+    public $timestamps = false;
+    public $incrementing = false;
     // Definisikan relasi dengan model DetailTransaksi
     public function detailTransaksi()
     {
         return $this->hasMany(DetailTransaksi::class, 'idtransaksi', 'idtransaksi');
+    }
+    public function getRouteKeyName(): string
+    {
+        return 'idtransaksi';
     }
 }

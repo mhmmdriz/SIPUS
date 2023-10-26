@@ -353,3 +353,31 @@ th, td {
 #tabel_kategori td:nth-child(3) {
   width: 23%;
 }
+
+body.dark .select2-container .select2-selection--multiple {
+  background-color: #212529;
+  }
+
+body.dark .select2-container .select2-dropdown {
+    background-color: #212529;
+}
+body.dark .select2-container .select2-selection--multiple .select2-selection__choice {
+    background-color: #212529;
+}
+body.dark .select2-container .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: #616468;
+}
+
+body.dark .select2-container--default .select2-results__option[aria-selected="true"] {
+    background-color: #404649;
+    color: #adb5bd;
+}
+
+body.dark .select2-container--default .select2-results__option[aria-selected=true]:hover {
+    background-color: #8b8b8b;
+    color: #dee2e6;
+}
+
+body.dark .select2-container--default .select2-results__option--selected {
+    background-color: #404649;
+}

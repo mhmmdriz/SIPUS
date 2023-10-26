@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
+use App\Models\Buku;
+use App\Models\Anggota;
 use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\Session; // Tambahkan use statement untuk Session
 
@@ -37,6 +39,72 @@ class TransaksiController extends Controller
         // dump($transaksi_belum_selesai);
         // dd($transaksi_selesai);
         return view('pengembalian.index', compact('transaksi_selesai', 'transaksi_belum_selesai'));
+    }
+
+    public function indexPeminjamanBuku(){
+        $buku = Buku::all();
+        $anggota = Anggota::where('status', '=', 1)->get();
+
+        $noktp_belum_mengembalikan = Peminjaman::selectRaw("noktp, MAX(tgl_pinjam) AS tgl_pinjam_terbaru")
+        ->join("detail_transaksi", "detail_transaksi.idtransaksi", "=", "peminjaman.idtransaksi")
+        ->where("tgl_kembali", "=", null)->groupBy("noktp")->pluck("noktp");
+
+        // dd($noktp_belum_mengembalikan);
+
+        $anggota_belum_meminjam = [];
+        $anggota_belum_mengembalikan = [];
+
+        foreach ($anggota as $agt){
+            if(in_array($agt->noktp, $noktp_belum_mengembalikan->toArray())){
+                $anggota_belum_mengembalikan [] = $agt;
+            }else{
+                $anggota_belum_meminjam[] = $agt;
+            }
+        }
+
+        return view("peminjaman.index", [
+            "buku"=> $buku,
+            "anggota_belum_meminjam" => $anggota_belum_meminjam,
+            "anggota_belum_mengembalikan" => $anggota_belum_mengembalikan
+        ]);
+
+    }
+
+    public function storePeminjamanBuku(Request $request){
+        // dd($request->idbuku);
+        $validatedData = $request->validate([
+            'noktp' => 'required',
+            'idbuku' => [
+                'required',
+                'array',
+                function ($attribute, $value, $fail) {
+                    if (count($value) < 1 || count($value) > 2) {
+                        $fail('The ' . $attribute . ' must contain 1 or 2 items.');
+                    }
+                },
+            ],
+        ]);
+
+        $tabelPeminjaman = [];
+        $tabelPeminjaman["noktp"] = $validatedData["noktp"];
+        $tabelPeminjaman["tgl_pinjam"] = now()->format("Y-m-d");
+        $tabelPeminjaman["idpetugas"] = auth()->user()->petugas->idpetugas;
+
+        Peminjaman::create( $tabelPeminjaman );
+
+        $idBaru =  Peminjaman::select('idtransaksi')->orderBy('idtransaksi', 'desc')->first();;
+
+        $idbuku = $validatedData["idbuku"];
+        foreach($idbuku as $id){
+            $detailTransaksi = new DetailTransaksi();
+            $detailTransaksi->idtransaksi = $idBaru->idtransaksi;
+            $detailTransaksi->idbuku = $id;
+            $detailTransaksi->denda = 0;
+            $detailTransaksi->idpetugas = auth()->user()->petugas->idpetugas;
+            $detailTransaksi->save();
+        }
+
+        return redirect("/peminjaman")->with("success", "Peminjaman berhasil ditambahkan.");
     }
 
     public function pengembalianBuku(Request $request)
