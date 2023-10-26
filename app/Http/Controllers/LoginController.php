@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -25,11 +26,34 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            if(auth()->user()->role == 'anggota'){
+                if(auth()->user()->anggota->status == 0){
+                    Auth::logout();
+                    return back()->with('loginError', 'Login Failed!');
+                }
+            }
             $request->session()->regenerate();
 
             return redirect()->intended('/');
         }
-        
+
+        // $user = User::select('email', 'password', 'role')->where("email", "=", $credentials['email'])->get();
+        // // dd($credentials["password"]);
+        // if ($user->count() > 0){
+        //     if (Hash::check($credentials["password"], $user[0]->password)) {
+        //         if($user[0]->role == 'anggota'){
+        //             $anggota = Anggota::select('status')->where("email", "=", "$user->email")->get();
+        //             if($anggota->status == 'aktif'){
+        //                 $request->session()->regenerate();
+        //                 return redirect()->intended('/');
+        //             }
+        //         }else{
+        //             $request->session()->regenerate();
+        //             return redirect()->intended('/');
+        //         }
+        //     }
+        // }
+
         return back()->with('loginError', 'Login Failed!');
     }
 

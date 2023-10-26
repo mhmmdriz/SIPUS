@@ -14,6 +14,15 @@
       <div class="card">
         <div class="card-header">Login</div>
         <div class="card-body">
+          <div class="mb-3">
+            @if (session()->has('loginError'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('loginError') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
+          </div>
+
           <form method="POST" autocomplete="on" action="/login">
             @csrf
             <div class="form-group">
