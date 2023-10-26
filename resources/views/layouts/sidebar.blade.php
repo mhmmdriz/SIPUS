@@ -1,4 +1,4 @@
-{{-- @dd({{ Cookie::get('nama_cookie') }}) --}}
+
 <nav class="sidebar {{ Cookie::get('sidebar') }}" id="sidebar">
   <header>
     <div class="image-text">
@@ -26,6 +26,8 @@
             <span class="text nav-text">Dashboard</span>
           </a>
         </li>
+
+        @if (auth()->user()->role == "petugas")
         <li class="nav-link {{ Request::is('buku*') ? 'active' : '' }}">
           <a href="/buku">
             <i class="bx bx-book icon"></i>
@@ -56,6 +58,8 @@
             <span class="text nav-text">Riwayat Transaksi</span>
           </a>
         </li>
+        @endif
+        
       </ul>
     </div>
 
