@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'email';
+    public $timestamps = false;
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +46,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function anggota()
+    {
+        return $this->hasOne(Anggota::class, 'email', 'email');
+    }
+    public function petugas()
+    {
+        return $this->hasOne(Petugas::class, 'email', 'email');
+    }
 }

@@ -43,9 +43,13 @@ class AnggotaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Anggota $anggota)
+    public function show($noktp)
     {
-        //
+        // dd($anggota);
+        $anggota = Anggota::find($noktp);
+        return view('anggota.show',[
+            "anggota" => $anggota,
+        ]);
     }
 
     /**
@@ -70,12 +74,14 @@ class AnggotaController extends Controller
 
         if ($anggota->status){
             $anggota->status = 0;
+            $message = 'Anggota Berhasil Dihapus';
         } else {
             $anggota->status = 1;
+            $message = 'Pendaftar Berhasil Ditambahkan Sebagai Anggota';
         }
         $anggota->save();
 
-        return back();
+        return back()->with('success', $message);
     }
 
     /**

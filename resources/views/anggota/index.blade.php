@@ -2,10 +2,17 @@
 
 @section('container')
 
+@if (session()->has('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <h3>Pendaftar</h3>
 <hr>
 
-<div class="overflow-auto">
+<div class="table-responsive">
 <table class="table table-striped">
   <tr>
     <th>No</th>
@@ -17,8 +24,7 @@
     <th>Email</th>
     <th>No Telp</th>
     <th>File KTP</th>
-    <th>Status</th>
-    <th>Terima?</th>
+    <th>Aksi</th>
   </tr>
   
   @php
@@ -35,10 +41,10 @@
       <td>{{ $applicant->kota }}</td>
       <td>{{ $applicant->email }}</td>
       <td>{{ $applicant->no_telp }}</td>
-      <td>{{ $applicant->file_ktp }}</td>
-      <td>{{ $applicant->status }}</td>
+      <td>{{ ($applicant->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
       <td>
-        <a class="btn btn-primary btn-sm" href="{{ url('change-status/'.$applicant->noktp) }}">Terima</a>
+        <a class="btn btn-primary btn-sm mb-1" href="/change-status/{{ $applicant->noktp }}">Terima</a>
+        <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $applicant->noktp }}">Detail</a>
       </td>
     </tr>
 
@@ -52,7 +58,7 @@
 <h3>Daftar Anggota</h3>
 <hr>
 
-<div class="overflow-auto">
+<div class="table-responsive">
 <table class="table table-striped">
   <tr>
     <th>No</th>
@@ -64,8 +70,7 @@
     <th>Email</th>
     <th>No Telp</th>
     <th>File KTP</th>
-    <th>Status</th>
-    <th>Hapus Keanggotaan?</th>
+    <th>Aksi</th>
   </tr>
   
   @php
@@ -82,10 +87,11 @@
       <td>{{ $member->kota }}</td>
       <td>{{ $member->email }}</td>
       <td>{{ $member->no_telp }}</td>
-      <td>{{ $member->file_ktp }}</td>
-      <td>{{ $member->status }}</td>
+      <td>{{ ($member->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
       <td>
-        <a class="btn btn-danger btn-sm" href="{{ url('change-status/'.$member->noktp) }}" onclick="return confirm('Are you sure?')">Hapus</a>
+        <button type="button" class="btn btn-danger btn-sm mb-1 delete-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $member->noktp }}" data-member-name="{{ $member->nama }}">Hapus</button>
+
+        <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $member->noktp }}">Detail</a>
         {{-- <form action="/anggota/{{ $member->noktp }}" method="post" class="d-inline">
           @method('delete')
           @csrf
@@ -100,6 +106,27 @@
 </table>
 </div>
 <p>Total Rows = {{ $i }}</p>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Hapus</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin menghapus <span id="memberName"></span> dari keanggotaan (No KTP: <span id="memberNoktp"></span>)?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a id="deleteMemberButton" class="btn btn-danger">Hapus</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/modal-del.js"></script>
 
 @endsection
 

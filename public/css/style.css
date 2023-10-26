@@ -67,6 +67,8 @@ body.dark{
 
 .sidebar.close .text{
   opacity: 0;
+  pointer-events: none; /*hilangkan clickable text*/
+  cursor: default;
 }
 
 .sidebar .image{

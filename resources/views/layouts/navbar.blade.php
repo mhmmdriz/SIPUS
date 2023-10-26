@@ -3,11 +3,18 @@
     <div class="navbar-nav ms-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Welcome back, 
+          @if (auth()->user()->role == "petugas")
+              Welcome back,  {{ auth()->user()->petugas->nama }}
+          @elseif(auth()->user()->role == "anggota")
+            Welcome back,  {{ auth()->user()->anggota->nama }}  
+          @endif
         </a>
         <div class="dropdown-menu row">
             <div class="col-md-auto">
-                <a class="btn btn-secondary" href="../access/logout.php">Logout</a>
+              <form action="/logout" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+              </form>
             </div>
         </div>
       </li>

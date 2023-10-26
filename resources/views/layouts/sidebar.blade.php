@@ -50,6 +50,12 @@
             <span class="text nav-text">Pengembalian Buku</span>
           </a>
         </li>
+        <li class="nav-link {{ Request::is('riwayat*') ? 'active' : '' }}">
+          <a href="/riwayat-transaksi">
+            <i class='bx bx-receipt icon'></i>
+            <span class="text nav-text">Riwayat Transaksi</span>
+          </a>
+        </li>
       </ul>
     </div>
 
