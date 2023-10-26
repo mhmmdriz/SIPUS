@@ -44,6 +44,12 @@
             <span class="text nav-text">Anggota</span>
           </a>
         </li>
+        <li class="nav-link {{ Request::is('pengembalian*') ? 'active' : '' }}">
+          <a href="/pengembalian">
+            <i class='bx bxs-book-bookmark icon'></i>
+            <span class="text nav-text">Pengembalian Buku</span>
+          </a>
+        </li>
       </ul>
     </div>
 

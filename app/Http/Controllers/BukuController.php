@@ -68,7 +68,7 @@ class BukuController extends Controller
 
         Buku::create($validatedData);
 
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Ditambahkan');
     }
 
     /**
@@ -112,7 +112,7 @@ class BukuController extends Controller
 
         Buku::where('isbn',$buku->isbn)->update($validatedData);
 
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Diedit');
     }
 
     /**
@@ -126,6 +126,6 @@ class BukuController extends Controller
         
         Buku::where('isbn',$buku->isbn)->delete();
         
-        return redirect('/buku');
+        return redirect('/buku')->with('success','Data Buku Berhasil Dihapus');
     }
 }
