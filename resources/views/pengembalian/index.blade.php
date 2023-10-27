@@ -50,6 +50,7 @@
                         <form method="post" action="{{ url('/pengembalian/kembalikan') }}">
                             @csrf
                             <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
+                            <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
                             <button type="submit" class="btn btn-primary">Terima Pengembalian</button>
                         </form>
                     </td>
@@ -88,6 +89,7 @@
                         <form method="post" action="{{ url('/pengembalian/batal') }}">
                             @csrf
                             <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
+                            <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
                             <button type="submit" class="btn btn-danger">Batalkan Pengembalian</button>
                         </form>
                     </td>
