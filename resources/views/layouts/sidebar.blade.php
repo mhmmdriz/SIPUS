@@ -46,6 +46,12 @@
             <span class="text nav-text">Anggota</span>
           </a>
         </li>
+        <li class="nav-link {{ Request::is('peminjaman*') ? 'active' : '' }}">
+          <a href="/peminjaman">
+            <i class='bx bx-book-add icon'></i>
+            <span class="text nav-text">Peminjaman Buku</span>
+          </a>
+        </li>
         <li class="nav-link {{ Request::is('pengembalian*') ? 'active' : '' }}">
           <a href="/pengembalian">
             <i class='bx bxs-book-bookmark icon'></i>

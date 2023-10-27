@@ -43,5 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/anggota/change-status',[AnggotaController::class,'changeStatus']);
         Route::post('/pengembalian/kembalikan', [TransaksiController::class, 'pengembalianBuku']);
         Route::post('/pengembalian/batal', [TransaksiController::class, 'batalPengembalian'])->name('pengembalian.batal');
+        Route::get('/peminjaman', [TransaksiController::class, 'indexPeminjamanBuku']);
+        Route::post('/peminjaman', [TransaksiController::class, 'storePeminjamanBuku']);
     });
 });
