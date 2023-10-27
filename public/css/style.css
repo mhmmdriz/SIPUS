@@ -321,6 +321,9 @@ body.dark hr{
 .gambar-buku{
   width: 200px;
 }
+.gambar-ktp{
+  width: 500px;
+}
 
 table {
   border-collapse: separate;
