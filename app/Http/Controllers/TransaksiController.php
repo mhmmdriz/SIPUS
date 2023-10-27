@@ -119,7 +119,8 @@ class TransaksiController extends Controller
         // Perbarui kolom denda di setiap detail_transaksi sesuai dengan denda yang dihitung
         DetailTransaksi::where("idtransaksi", $idtransaksi)->where("idbuku", $idbuku)->update([
             "tgl_kembali" => $tgl_kembali,
-            "denda" => $denda
+            "denda" => $denda,
+            "idpetugas" => auth()->user()->petugas->idpetugas
         ]);
 
         // Menggunakan Session untuk menyimpan pesan sukses
@@ -157,7 +158,8 @@ class TransaksiController extends Controller
         // Perbarui kolom denda di setiap detail_transaksi sesuai dengan denda yang dihitung
         DetailTransaksi::where("idtransaksi", $idtransaksi)->where("idbuku", $idbuku)->update([
             "tgl_kembali" => $tgl_kembali,
-            "denda" => $denda
+            "denda" => $denda,
+            "idpetugas" => $peminjaman->idpetugas
         ]);
 
         // Menggunakan Session untuk menyimpan pesan sukses
@@ -184,18 +186,20 @@ class TransaksiController extends Controller
            $row['tgl_pinjam'] = $t->tgl_pinjam;
            $row['tgl_kembali'] = $t->tgl_kembali;
            $row['denda'] = $t->denda;
-           $row['id_petugas'] = $t->id_petugas;
+           $row['id_petugas'] = $t->idpetugas;
 
-           if($t->tgl_kembali == null){
-               $transaksi_belum_selesai [] = (object) $row;
-           }else if($t->tgl_kembali == null && now()->diffInDays($t->tgl_pinjam) > 14){
-               $extraDenda = now()->diffInDays($t->tgl_pinjam) - 14;
-               $denda = $extraDenda * 1000;
-               $row['denda'] = $denda;
-               $transaksi_belum_selesai_denda [] = (object) $row;
-           }else{
+            if($t->tgl_kembali == null){
+                if($t->tgl_kembali == null && now()->diffInDays($t->tgl_pinjam) > 14){
+                    $extraDenda = now()->diffInDays($t->tgl_pinjam) - 14;
+                    $denda = $extraDenda * 1000;
+                    $row['denda'] = $denda;
+                    $transaksi_belum_selesai_denda [] = (object) $row;
+                }else{
+                    $transaksi_belum_selesai [] = (object) $row;
+                }
+            }else{
                 $transaksi_selesai [] = (object) $row;
-           }
+            }
         }
         return view('riwayat_transaksi.index', compact('transaksi_selesai', 'transaksi_belum_selesai', 'transaksi_belum_selesai_denda'));
     }

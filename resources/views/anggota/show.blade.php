@@ -15,7 +15,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-auto">
-        <img class="gambar-buku w-" src="{{ asset('storage/ktp/' . $anggota->file_ktp) }}" alt="" style="width: 10rem; height: 10rem;">
+        <img class="gambar-ktp" src="{{ asset('storage/' .$anggota->file_ktp) }}" alt="">
       </div>
       <div class="col-md-auto">
         <h5>Nomor KTP</h5>
