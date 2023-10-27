@@ -7,7 +7,7 @@ use App\Models\Peminjaman;
 use App\Models\Buku;
 use App\Models\Anggota;
 use App\Models\DetailTransaksi;
-use Illuminate\Support\Facades\Session; // Tambahkan use statement untuk Session
+use Illuminate\Support\Facades\Session;
 
 class TransaksiController extends Controller
 {
@@ -36,8 +36,7 @@ class TransaksiController extends Controller
                 $transaksi_selesai [] = (object) $row;
             }
         }
-        // dump($transaksi_belum_selesai);
-        // dd($transaksi_selesai);
+
         return view('pengembalian.index', compact('transaksi_selesai', 'transaksi_belum_selesai'));
     }
 
@@ -48,8 +47,6 @@ class TransaksiController extends Controller
         $noktp_belum_mengembalikan = Peminjaman::selectRaw("noktp, MAX(tgl_pinjam) AS tgl_pinjam_terbaru")
         ->join("detail_transaksi", "detail_transaksi.idtransaksi", "=", "peminjaman.idtransaksi")
         ->where("tgl_kembali", "=", null)->groupBy("noktp")->pluck("noktp");
-
-        // dd($noktp_belum_mengembalikan);
 
         $anggota_belum_meminjam = [];
         $anggota_belum_mengembalikan = [];
@@ -110,45 +107,25 @@ class TransaksiController extends Controller
     public function pengembalianBuku(Request $request)
     {
         $idtransaksi = $request->input('idtransaksi');
+        $idbuku = $request->input('idbuku');
 
         // Query untuk mendapatkan data peminjaman
         $peminjaman = Peminjaman::find($idtransaksi);
 
-        if ($peminjaman) {
-            $tgl_pinjam = $peminjaman->tgl_pinjam;
+        // Perbarui kolom tgl_kembali dengan tanggal saat tombol "Terima Pengembalian" ditekan
+        $tgl_kembali = now()->format('Y-m-d');
+        $denda = $this->hitungDenda($tgl_kembali, $peminjaman->tgl_pinjam);
 
-            $totalDenda = 0; // Menyimpan total denda dari semua detail transaksi
+        // Perbarui kolom denda di setiap detail_transaksi sesuai dengan denda yang dihitung
+        DetailTransaksi::where("idtransaksi", $idtransaksi)->where("idbuku", $idbuku)->update([
+            "tgl_kembali" => $tgl_kembali,
+            "denda" => $denda
+        ]);
 
-            foreach ($peminjaman->detailTransaksi as $detailTransaksi) {
-                // Perbarui kolom tgl_kembali dengan tanggal saat tombol "Terima Pengembalian" ditekan
-                $dateOnly = now()->format('Y-m-d');
-                $detailTransaksi->tgl_kembali = $dateOnly;
-                $denda = $this->hitungDenda($detailTransaksi->tgl_kembali, $tgl_pinjam);
+        // Menggunakan Session untuk menyimpan pesan sukses
+        Session::flash('success', 'Buku telah dikembalikan. Total denda yang harus dibayar: Rp ' . number_format($denda, 0, ",", "."));
 
-                // Perbarui kolom denda di setiap detail_transaksi sesuai dengan denda yang dihitung
-                $detailTransaksi->denda = $denda;
-                $detailTransaksi->save();
-
-                $totalDenda += $denda;
-            }
-
-            // Menggunakan Session untuk menyimpan pesan sukses
-            Session::flash('success', 'Buku telah dikembalikan. Total denda yang harus dibayar: Rp ' . number_format($totalDenda, 0, ",", "."));
-
-            // Hapus data yang sudah dikembalikan dari daftar peminjaman
-            $peminjaman->detailTransaksi->each(function ($detailTransaksi) {
-                $detailTransaksi->tgl_kembali;
-                $detailTransaksi->denda;
-                $detailTransaksi->save();
-            });
-
-            return redirect('/pengembalian');
-        } else {
-            // Menggunakan Session untuk menyimpan pesan kesalahan
-            Session::flash('error', 'Data transaksi tidak ditemukan.');
-
-            return redirect('/pengembalian');
-        }
+        return redirect('/pengembalian');
     }
 
     // Fungsi untuk menghitung denda
@@ -168,30 +145,25 @@ class TransaksiController extends Controller
     public function batalPengembalian(Request $request)
     {
         $idtransaksi = $request->input('idtransaksi');
+        $idbuku = $request->input('idbuku');
 
-        // Query untuk mendapatkan data peminjaman yang sudah dikembalikan
+        // Query untuk mendapatkan data peminjaman
         $peminjaman = Peminjaman::find($idtransaksi);
 
-        if ($peminjaman) {
-            $tgl_kembali = $peminjaman->detailTransaksi->first()->tgl_kembali;
+        // Perbarui kolom tgl_kembali dengan tanggal saat tombol "Terima Pengembalian" ditekan
+        $tgl_kembali = null;
+        $denda = 0;
 
-            // Perbarui kolom tgl_kembali menjadi NULL dan denda menjadi 0
-            $peminjaman->detailTransaksi->each(function ($detailTransaksi) {
-                $detailTransaksi->tgl_kembali = null;
-                $detailTransaksi->denda = 0;
-                $detailTransaksi->save();
-            });
+        // Perbarui kolom denda di setiap detail_transaksi sesuai dengan denda yang dihitung
+        DetailTransaksi::where("idtransaksi", $idtransaksi)->where("idbuku", $idbuku)->update([
+            "tgl_kembali" => $tgl_kembali,
+            "denda" => $denda
+        ]);
 
-            // Menggunakan Session untuk menyimpan pesan sukses
-            Session::flash('success', 'Pengembalian berhasil dibatalkan.');
+        // Menggunakan Session untuk menyimpan pesan sukses
+        Session::flash('success', 'Pengembalian berhasil dibatalkan.');
 
-            return redirect('/pengembalian');
-        } else {
-            // Menggunakan Session untuk menyimpan pesan kesalahan
-            Session::flash('error', 'Data transaksi tidak ditemukan.');
-
-            return redirect('/pengembalian');
-        }
+        return redirect('/pengembalian');
     }
 
     public function riwayatTransaksi()
@@ -224,11 +196,8 @@ class TransaksiController extends Controller
            }else{
                 $transaksi_selesai [] = (object) $row;
            }
-           
-       // dump($transaksi_belum_selesai);
-       // dd($transaksi_selesai);
-       return view('riwayat_transaksi.index', compact('transaksi_selesai', 'transaksi_belum_selesai', 'transaksi_belum_selesai_denda'));
         }
+        return view('riwayat_transaksi.index', compact('transaksi_selesai', 'transaksi_belum_selesai', 'transaksi_belum_selesai_denda'));
     }
 }
     

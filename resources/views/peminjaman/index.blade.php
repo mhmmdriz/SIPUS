@@ -41,7 +41,7 @@
                   <div class="mb-3">
                     <label for="judul" class="form-label">Buku</label>
                     <br>
-                    <select class="form-select multi-select @error('idbuku') is-invalid @enderror" id="idbuku" name="idbuku[]" multiple="multiple">
+                    <select class="form-select multi-select @error('idbuku') is-invalid @enderror" id="idbuku" name="idbuku[]" multiple="multiple" style="width: 100%">
                         @foreach ($buku as $b)
                             @if (is_array(old('idbuku')) && in_array($b->idbuku, old('idbuku')))
                                 <option value="{{ $b->idbuku }}" selected>{{ $b->judul }}</option>
