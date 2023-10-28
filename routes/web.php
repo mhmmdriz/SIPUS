@@ -45,5 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/pengembalian/batal', [TransaksiController::class, 'batalPengembalian'])->name('pengembalian.batal');
         Route::get('/peminjaman', [TransaksiController::class, 'indexPeminjamanBuku']);
         Route::post('/peminjaman', [TransaksiController::class, 'storePeminjamanBuku']);
+
+        Route::get('/ajaxTabelTransaksi', [TransaksiController::class, 'updateTabelTransaksi']);
     });
 });
