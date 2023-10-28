@@ -1,5 +1,6 @@
 @extends('layouts.main')
 
 @section('container')
-<h2>Dashboard</h2>
+<h3>Dashboard Anggota</h3>
+<hr>
 @endsection

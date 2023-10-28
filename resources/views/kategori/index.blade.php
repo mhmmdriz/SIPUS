@@ -6,13 +6,25 @@
 <hr>
 
 @if (session()->has('success'))
-  <div class="alert alert-success alert-dismissible fade show col-md-3" role="alert">
+  <div class="alert alert-success alert-dismissible fade show col" role="alert">
     {{ session('success') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 @endif
 
 <a  class="btn btn-primary mb-4" href="/kategori/create">+ Tambah Data Kategori</a>
+
+<div class="row">
+  <div class="col-6">
+    <form action="/kategori">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search...." name="search" value="{{ request('search') }}">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="row">
   <div class="table-responsive">
 
@@ -48,11 +60,14 @@
         </tr>
       @endforeach
     </table>
-    <br>
-    <p>Total Rows = {{ $i }}</p>
   </div>
 </div>
 
+<div class="row">
+  <div class="col-auto">
+    {{ $categories->links() }}
+  </div>
+</div>
 
 @endsection
 
