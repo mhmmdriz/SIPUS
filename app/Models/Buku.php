@@ -13,6 +13,7 @@ class Buku extends Model
 
     protected $primaryKey = 'idbuku';
     public $incrementing = false;
+    protected $with = ['kategori'];
 
     protected $guarded = [];
 

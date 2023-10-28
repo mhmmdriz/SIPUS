@@ -14,6 +14,17 @@
 
 <a  class="btn btn-primary mb-4" href="/buku/create">+ Tambah Data Buku</a>
 
+<div class="row">
+  <div class="col-6">
+    <form action="/buku">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search...." name="search" value="{{ request('search') }}">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="table-responsive">
 <table class="table table-striped" id="tabel_buku">
   <tr>
@@ -53,7 +64,6 @@
   @endforeach
 </table>
 </div>
-<p>Total Rows = {{ $i }}</p>
 
 <!-- Modal masih salah -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,6 +90,11 @@
   </div>
 </div>
 
+<div class="row d-flex justify-content-center">
+  <div class="col-auto">
+    {{ $books->links() }}
+  </div>
+</div>
 <script src="js/modal-del.js"></script>
 
 @endsection
