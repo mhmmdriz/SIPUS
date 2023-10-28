@@ -15,11 +15,15 @@ class KategoriController extends Controller
      */
     public function index()
     {
+        $search = request('search');
+
         $categories = Kategori::selectRaw('kategori.idkategori, kategori.nama, COUNT(buku.idbuku) AS total_buku')
-        ->leftJoin('buku', 'buku.idkategori', '=', 'kategori.idkategori')->groupBy('kategori.idkategori', 'kategori.nama')->get();
+        ->where('nama', 'like', '%'.$search.'%')
+        ->leftJoin('buku', 'buku.idkategori', '=', 'kategori.idkategori')
+        ->groupBy('kategori.idkategori', 'kategori.nama');
 
         return view('kategori.index',[
-            "categories" => $categories,
+            "categories" => $categories->paginate(5)->withQueryString(),
         ]);
     }
 

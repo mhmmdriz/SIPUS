@@ -16,13 +16,27 @@ class BukuController extends Controller
      */
     public function index()
     {
+        $search = request('search');
+
         $books = Buku::selectRaw('*, kategori.nama AS kategori')
         ->join('kategori', 'buku.idkategori', '=', 'kategori.idkategori')
-        ->get();
+        ->where('judul', 'like', '%'.$search.'%')
+        ->orWhere('isbn', 'like', '%'.$search.'%')
+        ->orWhere('kategori.nama', 'like', '%'.$search.'%')
+        ->orWhere('pengarang', 'like', '%'.$search.'%')
+        ->orWhere('penerbit', 'like', '%'.$search.'%')
+        ->orWhere('kota_terbit', 'like', '%'.$search.'%')
+        ->orWhere('editor', 'like', '%'.$search.'%')
+        ;
+        
 
         return view('buku.index',[
-            "books" => $books,
+            "books" => $books->paginate(5)->withQueryString(),
         ]);
+
+        // return view('buku.index',[
+        //     "books" => $books->filter(request('search'))->paginate(5)->withQuetyString(),
+        // ]);
     }
 
     /**
