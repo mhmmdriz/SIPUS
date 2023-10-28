@@ -38,7 +38,7 @@ class TransaksiController extends Controller
 
 
     public function indexPeminjamanBuku(){
-        $buku = Buku::all();
+        $buku = Buku::where("stok_tersedia", ">", 0)->get();
         $anggota = Anggota::where('status', '=', 1)->get();
 
         $noktp_belum_mengembalikan = Peminjaman::selectRaw("noktp, MAX(tgl_pinjam) AS tgl_pinjam_terbaru")
@@ -96,6 +96,8 @@ class TransaksiController extends Controller
             $detailTransaksi->denda = 0;
             $detailTransaksi->idpetugas = auth()->user()->petugas->idpetugas;
             $detailTransaksi->save();
+
+            Buku::where("idbuku", $id)->decrement("stok_tersedia");
         }
 
         return redirect("/peminjaman")->with("success", "Peminjaman berhasil ditambahkan.");
@@ -119,6 +121,8 @@ class TransaksiController extends Controller
             "denda" => $denda,
             "idpetugas" => auth()->user()->petugas->idpetugas
         ]);
+
+        Buku::where("idbuku", $idbuku)->increment("stok_tersedia");
 
         // Menggunakan Session untuk menyimpan pesan sukses
         Session::flash('success', 'Buku telah dikembalikan. Total denda yang harus dibayar: Rp ' . number_format($denda, 0, ",", "."));
@@ -159,6 +163,8 @@ class TransaksiController extends Controller
             "idpetugas" => $peminjaman->idpetugas
         ]);
 
+        Buku::where("idbuku", $idbuku)->decrement("stok_tersedia");
+
         // Menggunakan Session untuk menyimpan pesan sukses
         Session::flash('success', 'Pengembalian berhasil dibatalkan.');
 
@@ -187,7 +193,7 @@ class TransaksiController extends Controller
                     $row['tgl_pinjam'] = $t->tgl_pinjam;
                     $row['tgl_kembali'] = $t->tgl_kembali;
                     $row['denda'] = $t->denda;
-                    $row['id_petugas'] = $t->id_petugas;
+                    $row['idpetugas'] = $t->idpetugas;
                     $daftar_transaksi[] = (object) $row;
                 }
             }
@@ -203,7 +209,7 @@ class TransaksiController extends Controller
                     $extraDenda = now()->diffInDays($t->tgl_pinjam) - 14;
                     $denda = $extraDenda * 1000;
                     $row['denda'] = $denda;
-                    $row['id_petugas'] = $t->id_petugas;
+                    $row['idpetugas'] = $t->idpetugas;
                     $daftar_transaksi[] = (object) $row;
                 }
             }
@@ -214,4 +220,18 @@ class TransaksiController extends Controller
         return response()->json(['html' => $view]);
     }
 
+
+    public function deletePeminjaman($idtransaksi){
+        $peminjaman = Peminjaman::find($idtransaksi);
+        $detailTransaksi = DetailTransaksi::where("idtransaksi", $idtransaksi)->get();
+
+        foreach($detailTransaksi as $dt){
+            Buku::where("idbuku", $dt->idbuku)->increment("stok_tersedia");
+        }
+
+        $detailTransaksi->each->delete();
+        $peminjaman->delete();
+
+        return redirect("/pengembalian")->with("success", "Peminjaman berhasil dihapus.");
+    }
 }

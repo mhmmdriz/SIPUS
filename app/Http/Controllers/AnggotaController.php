@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Anggota;
 use App\Http\Requests\StoreAnggotaRequest;
 use App\Http\Requests\UpdateAnggotaRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class AnggotaController extends Controller
 {
@@ -25,25 +27,7 @@ class AnggotaController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAnggotaRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($noktp)
     {
         // dd($anggota);
@@ -51,22 +35,6 @@ class AnggotaController extends Controller
         return view('anggota.show',[
             "anggota" => $anggota,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Anggota $anggota)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAnggotaRequest $request, Anggota $anggota)
-    {
-        //
     }
 
     public function changeStatus(Request $request)
@@ -89,9 +57,15 @@ class AnggotaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Anggota $anggota)
+    public function hapus($noktp)
     {
-        //
+        $anggota = Anggota::where("noktp",$noktp)->first();
+        Storage::delete($anggota->file_ktp);
+
+        Anggota::where('noktp',$anggota->noktp)->delete();
+        User::where('email',$anggota->email)->delete();
+
+        return back()->with('success', 'Pendaftar Berhasil Dihapus');
     }
 
     public function viewAnggota(Request $request)
@@ -109,5 +83,17 @@ class AnggotaController extends Controller
         ])->render();
 
         return response()->json(['html' => $view]);
+    }
+
+    public function resetPassword($noktp)
+    {
+        $anggota = Anggota::find($noktp);
+        $user = $anggota->user;
+        $anggota->password = bcrypt("password");
+        $anggota->save();
+        $user->password = bcrypt("password");
+        $user->save();
+
+        return back()->with('success', 'Password Anggota Berhasil Direset');
     }
 }

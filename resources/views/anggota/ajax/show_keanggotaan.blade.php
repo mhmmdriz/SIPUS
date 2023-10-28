@@ -31,7 +31,8 @@
           <td>
             <button type="button" class="btn btn-danger btn-sm mb-1 delete-anggota-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $ang->noktp }}" data-member-name="{{ $ang->nama }}">Hapus</button>
     
-            <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
+            <a class="btn btn-secondary btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
+            <a class="btn btn-warning btn-sm mb-1" href="/anggota/reset/{{ $ang->noktp }}">Reset Password</a>
           </td>
         </tr>
       @endforeach
@@ -53,14 +54,14 @@
               <input type="hidden" name="noktp" value="{{ $ang->noktp }}">
               <button type="submit" class="btn btn-primary btn-sm mb-1">Terima</button>
             </form>
-            <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
-            {{-- <form action="/anggota/{{ $ang->noktp }}" method="post" class="d-inline">
+            <a class="btn btn-warning btn-sm" href="/anggota/{{ $ang->noktp }}">Detail</a>
+            <form action="/pendaftar/hapus/{{ $ang->noktp }}" method="post" class="d-inline">
               @method('delete')
               @csrf
               <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                Hapus
+                Hapus Permanen
               </button>
-            </form> --}}
+            </form>
           </td>
         </tr>
       @endforeach
