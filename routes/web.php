@@ -25,9 +25,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
+    Route::get('/', [LoginController::class,'dashboard']);
     Route::post('/logout', [LoginController::class,'logout']);
   
     Route::middleware('is.role:petugas')->group(function () {

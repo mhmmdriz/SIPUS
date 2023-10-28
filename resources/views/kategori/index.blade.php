@@ -63,7 +63,7 @@
   </div>
 </div>
 
-<div class="row d-flex justify-content-center">
+<div class="row">
   <div class="col-auto">
     {{ $categories->links() }}
   </div>

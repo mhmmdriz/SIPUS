@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use App\Models\User;
+use App\Models\Kategori;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,23 +37,6 @@ class LoginController extends Controller
             return redirect()->intended('/');
         }
 
-        // $user = User::select('email', 'password', 'role')->where("email", "=", $credentials['email'])->get();
-        // // dd($credentials["password"]);
-        // if ($user->count() > 0){
-        //     if (Hash::check($credentials["password"], $user[0]->password)) {
-        //         if($user[0]->role == 'anggota'){
-        //             $anggota = Anggota::select('status')->where("email", "=", "$user->email")->get();
-        //             if($anggota->status == 'aktif'){
-        //                 $request->session()->regenerate();
-        //                 return redirect()->intended('/');
-        //             }
-        //         }else{
-        //             $request->session()->regenerate();
-        //             return redirect()->intended('/');
-        //         }
-        //     }
-        // }
-
         return back()->with('loginError', 'Login Failed!');
     }
 
@@ -69,7 +52,16 @@ class LoginController extends Controller
     }
 
     public function dashboard(){
-
+        if(auth()->user()->role == 'petugas'){
+            $categories = Kategori::selectRaw('kategori.idkategori, kategori.nama, COUNT(buku.idbuku) AS total_buku')
+                        ->leftJoin('buku', 'buku.idkategori', '=', 'kategori.idkategori')
+                        ->groupBy('kategori.idkategori', 'kategori.nama')->get();
+            return view("dashboard.petugas", [
+                "categories" => $categories,
+            ]);
+        }else{
+            return view("dashboard.anggota");
+        }
     }
     
 }
