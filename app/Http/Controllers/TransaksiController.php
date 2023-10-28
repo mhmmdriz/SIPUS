@@ -214,8 +214,12 @@ class TransaksiController extends Controller
                 }
             }
         }
+        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku');
         // dd($daftar_transaksi);
-        $view = view('riwayat_transaksi.ajax.update_table')->with('daftar_transaksi', $daftar_transaksi)->render();
+        $view = view('riwayat_transaksi.ajax.update_table')->with([
+            'daftar_transaksi' => $daftar_transaksi,
+            'buku' => $buku ?? null
+        ])->render();
 
         return response()->json(['html' => $view]);
     }

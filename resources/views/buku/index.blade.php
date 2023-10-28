@@ -40,7 +40,7 @@
   </tr>
   
   @php
-    $i = 0;
+    $i = ($books->currentPage() - 1) * $books->perPage();
   @endphp
 
   @foreach ($books as $book)

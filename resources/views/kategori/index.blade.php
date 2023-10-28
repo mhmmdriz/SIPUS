@@ -37,7 +37,7 @@
       </tr>
       
       @php
-        $i = 0;
+        $i = ($categories->currentPage() - 1) * $categories->perPage();
       @endphp
     
       @foreach ($categories as $category)
