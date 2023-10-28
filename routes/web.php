@@ -36,11 +36,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/anggota', AnggotaController::class);
         Route::resource('/pengembalian', TransaksiController::class);
-
+        
+        Route::delete('/pendaftar/hapus/{noktp}', [AnggotaController::class, 'hapus']);
         Route::post('/anggota/change-status',[AnggotaController::class,'changeStatus']);
+        Route::get('/anggota/reset/{noktp}', [AnggotaController::class, 'resetPassword']);
 
         Route::get('/peminjaman', [TransaksiController::class, 'indexPeminjamanBuku']);
         Route::post('/peminjaman', [TransaksiController::class, 'storePeminjamanBuku']);
+        Route::delete('/peminjaman/hapus/{idtransaksi}', [TransaksiController::class, 'deletePeminjaman']);
 
         Route::post('/pengembalian/kembalikan', [TransaksiController::class, 'pengembalianBuku']);
         Route::post('/pengembalian/batal', [TransaksiController::class, 'batalPengembalian'])->name('pengembalian.batal');

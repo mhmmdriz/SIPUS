@@ -19,7 +19,7 @@
                 <td>{{ $ts->tgl_pinjam }}</td>
                 <td>{{ $ts->tgl_kembali }}</td>
                 <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                <td>{{ $ts->id_petugas }}</td>
+                <td>{{ $ts->idpetugas }}</td>
             </tr>
         @endforeach
     </tbody>

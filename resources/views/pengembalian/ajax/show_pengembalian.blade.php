@@ -25,7 +25,15 @@
               @csrf
               <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
               <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
-              <button type="submit" class="btn btn-primary">Terima Pengembalian</button>
+              <button type="submit" class="btn btn-primary mb-1">Terima Pengembalian</button>
+            </form>
+
+            <form action="/peminjaman/hapus/{{ $ts->idtransaksi }}" method="post" class="d-inline">
+              @method('delete')
+              @csrf
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                Hapus Permanen
+              </button>
             </form>
           </td>
         </tr>
