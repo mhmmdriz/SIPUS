@@ -65,7 +65,6 @@
 </table>
 </div>
 
-<!-- Modal masih salah -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -95,7 +94,7 @@
     {{ $books->links() }}
   </div>
 </div>
-<script src="js/modal-del.js"></script>
+<script src="js/modal_del.js"></script>
 
 @endsection
 

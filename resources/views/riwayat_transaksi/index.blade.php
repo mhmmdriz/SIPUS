@@ -5,100 +5,22 @@
 <h3>Riwayat Transaksi</h3>
 <hr>
 
-<h3>Transaksi Sudah Selesai</h3>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item active">
+      <a role="button" class="page-link" onclick="showTabelTransaksi(1)">Transaksi Sudah Selesai</a>
+    </li>
+    <li class="page-item">
+      <a role="button" class="page-link" onclick="showTabelTransaksi(2)">Transaksi Dalam Proses</a>
+    </li>
+    <li class="page-item">
+      <a role="button" class="page-link" onclick="showTabelTransaksi(3)">Transaksi Dalam Proses + Denda</a>
+    </li>
+  </ul>
+</nav>
 
-<!-- Tabel Daftar Pengembalian -->
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID Transaksi</th>
-                <th>No. KTP</th>
-                <th>ID Buku</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th>Denda</th>
-                <th>ID Petugas</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($transaksi_selesai as $ts)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
-                    <td>{{ $ts->idtransaksi }}</td>
-                    <td>{{ $ts->noktp }}</td>
-                    <td>{{ $ts->idbuku }}</td>
-                    <td>{{ $ts->tgl_pinjam }}</td>
-                    <td>{{ $ts->tgl_kembali }}</td>
-                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                    <td>{{ $ts->id_petugas }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+<div id="viewTransactionTable" class="table-responsive"></div>
 
-<h3>Transaksi Dalam Proses</h3>
-
-<!-- Tabel Daftar Pengembalian -->
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID Transaksi</th>
-                <th>No. KTP</th>
-                <th>ID Buku</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th>Denda</th>
-                <th>ID Petugas</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($transaksi_belum_selesai as $ts)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
-                    <td>{{ $ts->idtransaksi }}</td>
-                    <td>{{ $ts->noktp }}</td>
-                    <td>{{ $ts->idbuku }}</td>
-                    <td>{{ $ts->tgl_pinjam }}</td>
-                    <td>{{ $ts->tgl_kembali }}</td>
-                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                    <td>{{ $ts->id_petugas }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
-<h3>Transaksi Dalam Proses + Denda</h3>
-    
-<!-- Tabel Daftar Pengembalian -->
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID Transaksi</th>
-                <th>No. KTP</th>
-                <th>ID Buku</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th>Denda</th>
-                <th>ID Petugas</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($transaksi_belum_selesai_denda as $ts)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
-                    <td>{{ $ts->idtransaksi }}</td>
-                    <td>{{ $ts->noktp }}</td>
-                    <td>{{ $ts->idbuku }}</td>
-                    <td>{{ $ts->tgl_pinjam }}</td>
-                    <td>{{ $ts->tgl_kembali }}</td>
-                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                    <td>{{ $ts->id_petugas }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+<script src="js/ajax_transaksi.js"></script>
 
 @endsection

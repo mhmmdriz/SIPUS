@@ -384,3 +384,7 @@ body.dark .select2-container--default .select2-results__option[aria-selected=tru
 body.dark .select2-container--default .select2-results__option--selected {
     background-color: #404649;
 }
+
+.img-preview {
+  width: '200px';
+}

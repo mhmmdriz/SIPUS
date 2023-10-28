@@ -16,86 +16,29 @@
         </div>
     @endif
 
-<h3>Daftar Peminjaman</h3>
-<br>
-    <!-- Tambahkan search bar di sini -->
-    <div class="form-group mb-3 col-md-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Cari ID Transaksi">
-    </div>
+<h3>Pengembalian Buku</h3>
+<hr>
 
-    <!-- Hasil pencarian akan ditampilkan di sini -->
-    <div id="searchResult" class="table-responsive">
-        <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID Transaksi</th>
-                <th>No. KTP</th>
-                <th>ID Buku</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th>Denda</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($transaksi_belum_selesai as $ts)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
-                    <td>{{ $ts->idtransaksi }}</td>
-                    <td>{{ $ts->noktp }}</td>
-                    <td>{{ $ts->idbuku }}</td>
-                    <td>{{ $ts->tgl_pinjam }}</td>
-                    <td>{{ $ts->tgl_kembali }}</td>
-                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                    <td>
-                        <form method="post" action="{{ url('/pengembalian/kembalikan') }}">
-                            @csrf
-                            <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
-                            <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
-                            <button type="submit" class="btn btn-primary">Terima Pengembalian</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-        </table>
-    </div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item active">
+        <a role="button" class="page-link" onclick="showPengembalian(1)">Daftar Peminjaman</a>
+      </li>
+      <li class="page-item">
+        <a role="button" class="page-link" onclick="showPengembalian(2)">Daftar Pengembalian</a>
+      </li>
+    </ul>
+</nav>
 
-<h3>Daftar Pengembalian</h3>
-<br>
-    <!-- Tabel Daftar Pengembalian -->
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID Transaksi</th>
-                    <th>No. KTP</th>
-                    <th>ID Buku</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Denda</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($transaksi_selesai as $ts)
-                <tr class="peminjaman-row" data-idtransaksi="{{ $ts->idtransaksi }}">
-                    <td>{{ $ts->idtransaksi }}</td>
-                    <td>{{ $ts->noktp }}</td>
-                    <td>{{ $ts->idbuku }}</td>
-                    <td>{{ $ts->tgl_pinjam }}</td>
-                    <td>{{ $ts->tgl_kembali }}</td>
-                    <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
-                    <td>
-                        <form method="post" action="{{ url('/pengembalian/batal') }}">
-                            @csrf
-                            <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
-                            <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
-                            <button type="submit" class="btn btn-danger">Batalkan Pengembalian</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+<!-- Tambahkan search bar di sini -->
+{{-- <div class="form-group mb-3 col-md-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Cari ID Transaksi">
+</div> --}}
+
+<!-- Hasil pencarian akan ditampilkan di sini -->
+
+<div id="viewPengembalian" class="table-responsive"></div>
+
+<script src="js/ajax_pengembalian.js"></script>
+                    
 @endsection
