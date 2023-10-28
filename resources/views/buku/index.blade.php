@@ -80,7 +80,7 @@
   </div>
 </div>
 
-<script src="js/modal-del.js"></script>
+<script src="js/modal_del.js"></script>
 
 @endsection
 

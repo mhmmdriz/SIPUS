@@ -1,13 +1,13 @@
-function showTransactionTable(keyword){
+function showPengembalian(index){
     const pageLinks = document.querySelectorAll(".page-link");
 
-    console.log(keyword);
+    console.log(index);
     $.ajax({
         type: 'GET',
-        url: '/ajaxTabelTransaksi',
-        data: {'keyword':keyword},
+        url: '/ajaxPengembalian',
+        data: {'index':index},
         success: function(response) {
-            $('#viewTransactionTable').html(response.html);
+            $('#viewPengembalian').html(response.html);
             console.log(response.html);
         },
         error: function(response) {
@@ -18,7 +18,7 @@ function showTransactionTable(keyword){
     pageLinks.forEach(btn => {
         btn.parentElement.classList.remove("active");
     });
-    pageLinks[keyword-1].parentElement.classList.add("active");
+    pageLinks[index-1].parentElement.classList.add("active");
 }
 
-showTransactionTable(1);
+showPengembalian(1);

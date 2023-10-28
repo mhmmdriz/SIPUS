@@ -90,57 +90,21 @@ modeSwitch.addEventListener("click", () =>{
 })
 
 let imgPreview = document.querySelector('.img-preview');
+
+function previewImage(){
+  // tangkap inputan imagenya yang berasal dari input dengan id="image"
+  let image = document.querySelector('#file_gambar');
+  // ambil tag img kosong tadi
+  let imgPreview = document.querySelector('.img-preview');
+
+  imgPreview.style.display = 'block';
   imgPreview.style.width = '200px';
-  
-  function previewImage(){
-    // tangkap inputan imagenya yang berasal dari input dengan id="image"
-    let image = document.querySelector('#file_gambar');
-    // ambil tag img kosong tadi
-    let imgPreview = document.querySelector('.img-preview');
 
-    imgPreview.style.display = 'block';
-    imgPreview.style.width = '200px';
+  // ambil data gambar
+  let oFReader = new FileReader();
+  oFReader.readAsDataURL(image.files[0]);
 
-    // ambil data gambar
-    let oFReader = new FileReader();
-    oFReader.readAsDataURL(image.files[0]);
-
-    oFReader.onload = function(oFREvent){
-      imgPreview.src = oFREvent.target.result;
-    }
+  oFReader.onload = function(oFREvent){
+    imgPreview.src = oFREvent.target.result;
   }
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("searchInput");
-    const searchResult = document.getElementById("searchResult");
-
-    // Fungsi untuk mengirim permintaan pencarian dengan Ajax
-    function searchTransactions() {
-        const idtransaksi = searchInput.value;
-
-        if (idtransaksi) {
-            // Sembunyikan semua baris tabel
-            const rows = document.getElementsByClassName("peminjaman-row");
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].style.display = "none";
-            }
-
-            // Tampilkan baris yang sesuai dengan hasil pencarian
-            const matchingRows = document.querySelectorAll(".peminjaman-row[data-idtransaksi='" + idtransaksi + "']");
-            for (let i = 0; i < matchingRows.length; i++) {
-                matchingRows[i].style.display = "table-row";
-            }
-        } else {
-            // Tampilkan semua baris tabel jika input pencarian kosong
-            const rows = document.getElementsByClassName("peminjaman-row");
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].style.display = "table-row";
-            }
-        }
-    }
-
-    // Merekam perubahan pada input pencarian
-    searchInput.addEventListener("input", searchTransactions);
-});
-
+}

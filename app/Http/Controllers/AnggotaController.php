@@ -93,4 +93,21 @@ class AnggotaController extends Controller
     {
         //
     }
+
+    public function viewAnggota(Request $request)
+    {
+        $data_anggota = Anggota::get();
+
+        if ($request->index == 1){
+            $anggota = $data_anggota->where('status', 1);
+        } else {
+            $anggota = $data_anggota->where('status', 0);
+        }
+        $view = view('anggota.ajax.show_keanggotaan')->with([
+            'anggota' => $anggota,
+            'index' => $request->index
+        ])->render();
+
+        return response()->json(['html' => $view]);
+    }
 }

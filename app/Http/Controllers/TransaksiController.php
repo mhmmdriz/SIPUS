@@ -13,32 +13,29 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        // Ambil data peminjaman dan detail transaksi
-        $transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')
-            ->get();
-
-        $transaksi_selesai = [];
-        $transaksi_belum_selesai = [];
-
-        foreach ($transaksi as $t) {
-            $row = [];
-            $row['idtransaksi'] = $t->idtransaksi;
-            $row['noktp'] = $t->noktp;
-            $row['idbuku'] = $t->idbuku;
-            $row['tgl_pinjam'] = $t->tgl_pinjam;
-            $row['tgl_kembali'] = $t->tgl_kembali;
-            $row['denda'] = $t->denda;
-            $row['id_petugas'] = $t->id_petugas;
-
-            if ($t->tgl_kembali == null) {
-                $transaksi_belum_selesai[] = (object) $row;
-            } else {
-                $transaksi_selesai[] = (object) $row;
-            }
-        }
-
-        return view('pengembalian.index', compact('transaksi_selesai', 'transaksi_belum_selesai'));
+        return view('pengembalian.index');
     }
+
+    function viewPengembalian(Request $request)
+    {
+        $data_transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')->get();
+
+        if ($request->index == 1) {
+            $transaksi = $data_transaksi->where('tgl_kembali', null);
+        } else {
+            $transaksi = $data_transaksi->where('tgl_kembali', '!=', null);
+        }
+        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku');
+
+        $view = view('pengembalian.ajax.show_pengembalian')->with([
+            'transaksi' => $transaksi,
+            'index' => $request->index,
+            'buku' => $buku ?? null
+        ])->render();
+
+        return response()->json(['html' => $view]);
+    }
+
 
     public function indexPeminjamanBuku(){
         $buku = Buku::all();
@@ -170,44 +167,14 @@ class TransaksiController extends Controller
 
     public function riwayatTransaksi()
     {
-        // Ambil data peminjaman dan detail transaksi
-        $transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')
-            ->get();
-
-        $transaksi_selesai = [];
-        $transaksi_belum_selesai = [];
-        $transaksi_belum_selesai_denda = [];
-
-        foreach ($transaksi as $t) {
-            $row = [];
-            $row['idtransaksi'] = $t->idtransaksi;
-            $row['noktp'] = $t->noktp;
-            $row['idbuku'] = $t->idbuku;
-            $row['tgl_pinjam'] = $t->tgl_pinjam;
-            $row['tgl_kembali'] = $t->tgl_kembali;
-            $row['denda'] = $t->denda;
-            $row['id_petugas'] = $t->id_petugas;
-
-            if ($t->tgl_kembali != null) {
-                $transaksi_selesai[] = (object) $row;
-            } else if ($t->tgl_kembali == null && now()->diffInDays($t->tgl_pinjam) <= 14) {
-                $transaksi_belum_selesai[] = (object) $row;
-            } else {
-                $extraDenda = now()->diffInDays($t->tgl_pinjam) - 14;
-                $denda = $extraDenda * 1000;
-                $row['denda'] = $denda;
-                $transaksi_belum_selesai_denda[] = (object) $row;
-            }
-        }
-        // dump($transaksi_belum_selesai);
-        // dd($transaksi_belum_selesai_denda);
-        return view('riwayat_transaksi.index', compact('transaksi_selesai', 'transaksi_belum_selesai', 'transaksi_belum_selesai_denda'));
+        return view('riwayat_transaksi.index');
     }
 
     public function updateTabelTransaksi(Request $request)
     {
         $transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')->get();
         
+        $daftar_transaksi = [];
         if ($request->keyword == 1){
             $daftar_transaksi = $transaksi->where('tgl_kembali', '!=', null);
         } else if ($request->keyword == 2){
@@ -233,7 +200,9 @@ class TransaksiController extends Controller
                     $row['idbuku'] = $t->idbuku;
                     $row['tgl_pinjam'] = $t->tgl_pinjam;
                     $row['tgl_kembali'] = $t->tgl_kembali;
-                    $row['denda'] = $t->denda;
+                    $extraDenda = now()->diffInDays($t->tgl_pinjam) - 14;
+                    $denda = $extraDenda * 1000;
+                    $row['denda'] = $denda;
                     $row['id_petugas'] = $t->id_petugas;
                     $daftar_transaksi[] = (object) $row;
                 }
@@ -244,4 +213,5 @@ class TransaksiController extends Controller
 
         return response()->json(['html' => $view]);
     }
+
 }

@@ -9,107 +9,21 @@
   </div>
 @endif
 
-<h3>Pendaftar</h3>
+<h3>Keanggotaan</h3>
 <hr>
 
-<div class="table-responsive">
-<table class="table table-striped">
-  <tr>
-    <th>No</th>
-    <th>No KTP</th>
-    <th>Nama</th>
-    <th>Password</th>
-    <th>Alamat</th>
-    <th>Kota</th>
-    <th>Email</th>
-    <th>No Telp</th>
-    <th>File KTP</th>
-    <th>Aksi</th>
-  </tr>
-  
-  @php
-    $i = 0;
-  @endphp
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item active">
+      <a role="button" class="page-link" onclick="showAnggota(1)">Anggota</a>
+    </li>
+    <li class="page-item">
+      <a role="button" class="page-link" onclick="showAnggota(2)">Pendaftar</a>
+    </li>
+  </ul>
+</nav>
 
-  @foreach ($applicants as $applicant)
-    <tr>
-      <td>{{ ++$i }}</td>
-      <td>{{ $applicant->noktp }}</td>
-      <td>{{ $applicant->nama }}</td>
-      <td>{{ "<hidden>" }}</td>
-      <td>{{ $applicant->alamat }}</td>
-      <td>{{ $applicant->kota }}</td>
-      <td>{{ $applicant->email }}</td>
-      <td>{{ $applicant->no_telp }}</td>
-      <td>{{ ($applicant->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
-      <td>
-        <form method="post" action="{{ url('/anggota/change-status') }}">
-          @csrf
-          <input type="hidden" name="noktp" value="{{ $applicant->noktp }}">
-          <button type="submit" class="btn btn-primary btn-sm mb-1">Terima</button>
-        </form>
-        <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $applicant->noktp }}">Detail</a>
-      </td>
-    </tr>
-
-  @endforeach
-</table>
-</div>
-<p>Total Rows = {{ $i }}</p>
-
-<br>
-
-<h3>Daftar Anggota</h3>
-<hr>
-
-<div class="table-responsive">
-<table class="table table-striped">
-  <tr>
-    <th>No</th>
-    <th>No KTP</th>
-    <th>Nama</th>
-    <th>Password</th>
-    <th>Alamat</th>
-    <th>Kota</th>
-    <th>Email</th>
-    <th>No Telp</th>
-    <th>File KTP</th>
-    <th>Aksi</th>
-  </tr>
-  
-  @php
-    $i = 0;
-  @endphp
-
-  @foreach ($members as $member)
-    <tr>
-      <td>{{ ++$i }}</td>
-      <td>{{ $member->noktp }}</td>
-      <td>{{ $member->nama }}</td>
-      <td>{{ "<hidden>" }}</td>
-      <td>{{ $member->alamat }}</td>
-      <td>{{ $member->kota }}</td>
-      <td>{{ $member->email }}</td>
-      <td>{{ $member->no_telp }}</td>
-      <td>{{ ($member->file_ktp != NULL) ? "<submitted>":"<unsubmitted>" }}</td>
-      <td>
-        <button type="button" class="btn btn-danger btn-sm mb-1 delete-anggota-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $member->noktp }}" data-member-name="{{ $member->nama }}">Hapus</button>
-
-        <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $member->noktp }}">Detail</a>
-        {{-- <form action="/anggota/{{ $member->noktp }}" method="post" class="d-inline">
-          @method('delete')
-          @csrf
-          <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-            Hapus
-          </button>
-        </form> --}}
-      </td>
-    </tr>
-
-  @endforeach
-</table>
-</div>
-<p>Total Rows = {{ $i }}</p>
+<div id="viewAnggota" class="table-responsive"></div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -134,7 +48,7 @@
   </div>
 </div>
 
-<script src="js/modal-del.js"></script>
+<script src="js/modal_del.js"></script>
+<script src="js/ajax_anggota.js"></script>
 
 @endsection
-

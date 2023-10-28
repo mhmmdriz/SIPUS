@@ -16,4 +16,8 @@ class DetailTransaksi extends Model
     {
         return $this->belongsTo(Peminjaman::class, 'idtransaksi', 'idtransaksi');
     }
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class, 'idbuku', 'idbuku');
+    }
 }
