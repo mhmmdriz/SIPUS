@@ -27,8 +27,8 @@
           <td>
             <button type="button" class="btn btn-danger btn-sm mb-1 delete-anggota-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-member-noktp="{{ $ang->noktp }}" data-member-name="{{ $ang->nama }}">Hapus</button>
     
-            <a class="btn btn-secondary btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
-            <a class="btn btn-warning btn-sm mb-1" href="/anggota/reset/{{ $ang->noktp }}">Reset Password</a>
+            <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
+            <a class="btn btn-info btn-sm mb-1" href="/anggota/reset/{{ $ang->noktp }}">Reset Password</a>
           </td>
         </tr>
       @endforeach
@@ -49,6 +49,7 @@
               <button type="submit" class="btn btn-primary btn-sm mb-1">Terima</button>
               <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
             </form>
+            @if (!isset($anggotaPernahPinjam[$ang->noktp]))
             <form action="/pendaftar/hapus/{{ $ang->noktp }}" method="post" class="d-inline">
               @method('delete')
               @csrf
@@ -56,6 +57,7 @@
                 Hapus Permanen
               </button>
             </form>
+            @endif
           </td>
         </tr>
       @endforeach

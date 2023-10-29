@@ -56,9 +56,9 @@
       <td>
         <a class="btn btn-primary btn-sm mb-1" href="/buku/{{ $book->isbn }}">Detail</a>
         <a class="btn btn-warning btn-sm mb-1" href="/buku/{{ $book->isbn }}/edit">Edit</a>
-        
-        <button type="button" class="btn btn-danger btn-sm mb-1 delete-book-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-buku-isbn="{{ $book->isbn }}" data-buku-judul="{{ $book->judul }}">Hapus</button>
-        
+        @if ($book->stok == $book->stok_tersedia)
+          <button type="button" class="btn btn-danger btn-sm mb-1 delete-book-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-buku-isbn="{{ $book->isbn }}" data-buku-judul="{{ $book->judul }}">Hapus</button>
+        @endif
       </td>
     </tr>
   @endforeach

@@ -1,18 +1,18 @@
 function showPengembalian(index){
     const pageLinks = document.querySelectorAll(".page-link");
 
-    console.log(index);
+    // console.log(index);
     $.ajax({
         type: 'GET',
         url: '/ajaxPengembalian',
         data: {'index':index},
         success: function(response) {
             $('#viewPengembalian').html(response.html);
-            console.log(response.html);
+            // console.log(response.html);
         },
-        error: function(response) {
-            console.log('Error:', response);
-        }
+        // error: function(response) {
+        //     console.log('Error:', response);
+        // }
     });
 
     pageLinks.forEach(btn => {
