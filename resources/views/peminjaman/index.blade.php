@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
-<h3>Tambah Data Buku</h3>
+<h3>Tambah Data Peminjaman Buku</h3>
 <hr>
 
 @if (session()->has('success'))
