@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Anggota;
 use App\Http\Requests\StoreAnggotaRequest;
 use App\Http\Requests\UpdateAnggotaRequest;
+use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,17 +17,28 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        $data_anggota = Anggota::get();
-
-        $applicants = $data_anggota->where('status', 0);
-        $members = $data_anggota->where('status', 1);
-
-        return view('anggota.index',[
-            "applicants" => $applicants,
-            "members" => $members,
-        ]);
+        return view('anggota.index');
     }
 
+    public function viewAnggota(Request $request)
+    {
+        $data_anggota = Anggota::get();
+
+        $anggotaPernahPinjam = [];
+        if ($request->index == 1){
+            $anggota = $data_anggota->where('status', 1);
+        } else {
+            $anggota = $data_anggota->where('status', 0);
+            $anggotaPernahPinjam = $anggota->whereIn('noktp', Peminjaman::pluck('noktp'))->pluck('noktp', 'noktp');
+        }
+        $view = view('anggota.ajax.show_keanggotaan')->with([
+            'anggota' => $anggota,
+            'index' => $request->index,
+            'anggotaPernahPinjam' => $anggotaPernahPinjam
+        ])->render();
+
+        return response()->json(['html' => $view]);
+    }
 
     public function show($noktp)
     {
@@ -68,30 +80,15 @@ class AnggotaController extends Controller
         return back()->with('success', 'Pendaftar Berhasil Dihapus');
     }
 
-    public function viewAnggota(Request $request)
-    {
-        $data_anggota = Anggota::get();
-
-        if ($request->index == 1){
-            $anggota = $data_anggota->where('status', 1);
-        } else {
-            $anggota = $data_anggota->where('status', 0);
-        }
-        $view = view('anggota.ajax.show_keanggotaan')->with([
-            'anggota' => $anggota,
-            'index' => $request->index
-        ])->render();
-
-        return response()->json(['html' => $view]);
-    }
 
     public function resetPassword($noktp)
     {
         $anggota = Anggota::find($noktp);
         $user = $anggota->user;
-        $anggota->password = bcrypt("password");
+        $password_default = bcrypt("password");
+        $anggota->password = $password_default;
         $anggota->save();
-        $user->password = bcrypt("password");
+        $user->password = $password_default;
         $user->save();
 
         return back()->with('success', 'Password Anggota Berhasil Direset');

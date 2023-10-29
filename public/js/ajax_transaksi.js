@@ -1,11 +1,11 @@
-function showTabelTransaksi(keyword){
+function showTabelTransaksi(index){
     const pageLinks = document.querySelectorAll(".page-link");
 
-    // console.log(keyword);
+    // console.log(index);
     $.ajax({
         type: 'GET',
         url: '/ajaxTabelTransaksi',
-        data: {'keyword':keyword},
+        data: {'index':index},
         success: function(response) {
             $('#viewTransactionTable').html(response.html);
             // console.log(response.html);
@@ -15,7 +15,7 @@ function showTabelTransaksi(keyword){
     pageLinks.forEach(btn => {
         btn.parentElement.classList.remove("active");
     });
-    pageLinks[keyword-1].parentElement.classList.add("active");
+    pageLinks[index-1].parentElement.classList.add("active");
 }
 
 showTabelTransaksi(1);

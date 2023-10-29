@@ -181,9 +181,9 @@ class TransaksiController extends Controller
         $transaksi = Peminjaman::join('detail_transaksi', 'detail_transaksi.idtransaksi', '=', 'peminjaman.idtransaksi')->get();
         
         $daftar_transaksi = [];
-        if ($request->keyword == 1){
+        if ($request->index == 1){
             $daftar_transaksi = $transaksi->where('tgl_kembali', '!=', null);
-        } else if ($request->keyword == 2){
+        } else if ($request->index == 2){
             foreach ($transaksi as $t) {
                 if ($t->tgl_kembali == null && now()->diffInDays($t->tgl_pinjam) <= 14){
                     $row = [];
