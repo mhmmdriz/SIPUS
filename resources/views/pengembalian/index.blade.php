@@ -30,11 +30,6 @@
     </ul>
 </nav>
 
-<!-- Tambahkan search bar di sini -->
-{{-- <div class="form-group mb-3 col-md-3">
-    <input type="text" id="searchInput" class="form-control" placeholder="Cari ID Transaksi">
-</div> --}}
-
 <!-- Hasil pencarian akan ditampilkan di sini -->
 
 <div id="viewPengembalian" class="table-responsive"></div>

@@ -10,9 +10,6 @@ function showAnggota(index){
             $('#viewAnggota').html(response.html);
             // console.log(response.html);
         },
-        // error: function(response) {
-        //     console.log('Error:', response);
-        // }
     });
 
     pageLinks.forEach(btn => {
