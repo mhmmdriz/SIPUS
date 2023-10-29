@@ -21,17 +21,17 @@
           <td>{{ $ts->tgl_kembali }}</td>
           <td>{{ number_format($ts->denda, 0, ",", ".") }}</td>
           <td>
-            <form method="post" action="{{ url('/pengembalian/kembalikan') }}">
+            <form method="post" action="{{ url('/pengembalian/kembalikan') }}" class="d-inline">
               @csrf
               <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
               <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
-              <button type="submit" class="btn btn-primary mb-1">Terima Pengembalian</button>
+              <button type="submit" class="btn btn-primary btn-sm mb-1">Terima Pengembalian</button>
             </form>
 
             <form action="/peminjaman/hapus/{{ $ts->idtransaksi }}" method="post" class="d-inline">
               @method('delete')
               @csrf
-              <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+              <button class="btn btn-danger btn-sm mb-1" onclick="return confirm('Are you sure?')">
                 Hapus Permanen
               </button>
             </form>
@@ -52,7 +52,7 @@
               @csrf
               <input type="hidden" name="idtransaksi" value="{{ $ts->idtransaksi }}">
               <input type="hidden" name="idbuku" value="{{ $ts->idbuku }}">
-              <button type="submit" class="btn btn-danger">Batalkan Pengembalian</button>
+              <button type="submit" class="btn btn-danger btn-sm mb-1">Batalkan Pengembalian</button>
             </form>
           </td>
         </tr>
