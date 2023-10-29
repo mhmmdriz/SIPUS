@@ -50,14 +50,6 @@ class KategoriController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Kategori $kategori)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Kategori $kategori)

@@ -33,10 +33,6 @@ class BukuController extends Controller
         return view('buku.index',[
             "books" => $books->paginate(5)->withQueryString(),
         ]);
-
-        // return view('buku.index',[
-        //     "books" => $books->filter(request('search'))->paginate(5)->withQuetyString(),
-        // ]);
     }
 
     /**
