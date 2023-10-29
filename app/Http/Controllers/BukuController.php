@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
+use App\Models\DetailTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,9 +30,12 @@ class BukuController extends Controller
         ->orWhere('editor', 'like', '%'.$search.'%')
         ;
         
+        $bukuPernahDipinjam = [];
+        $bukuPernahDipinjam = DetailTransaksi::whereIn('idbuku', $books->pluck('idbuku'))->pluck('idbuku', 'idbuku')->toArray();
 
         return view('buku.index',[
             "books" => $books->paginate(5)->withQueryString(),
+            'bukuPernahDipinjam' => $bukuPernahDipinjam,
         ]);
     }
 

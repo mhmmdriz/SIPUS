@@ -56,7 +56,7 @@
       <td>
         <a class="btn btn-primary btn-sm mb-1" href="/buku/{{ $book->isbn }}">Detail</a>
         <a class="btn btn-warning btn-sm mb-1" href="/buku/{{ $book->isbn }}/edit">Edit</a>
-        @if ($book->stok == $book->stok_tersedia)
+        @if (!isset($bukuPernahDipinjam[$book->idbuku]))
           <button type="button" class="btn btn-danger btn-sm mb-1 delete-book-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-buku-isbn="{{ $book->isbn }}" data-buku-judul="{{ $book->judul }}">Hapus</button>
         @endif
       </td>

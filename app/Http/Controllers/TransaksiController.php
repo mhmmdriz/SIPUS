@@ -25,7 +25,7 @@ class TransaksiController extends Controller
         } else {
             $transaksi = $data_transaksi->where('tgl_kembali', '!=', null);
         }
-        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku');
+        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku')->toArray();
 
         $view = view('pengembalian.ajax.show_pengembalian')->with([
             'transaksi' => $transaksi,
@@ -214,7 +214,7 @@ class TransaksiController extends Controller
                 }
             }
         }
-        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku');
+        $buku = Buku::whereIn('idbuku', $transaksi->pluck('idbuku'))->pluck('judul', 'idbuku')->toArray();
         // dd($daftar_transaksi);
         $view = view('riwayat_transaksi.ajax.update_table')->with([
             'daftar_transaksi' => $daftar_transaksi,
