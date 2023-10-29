@@ -50,13 +50,13 @@
               <a class="btn btn-warning btn-sm mb-1" href="/anggota/{{ $ang->noktp }}">Detail</a>
             </form>
             @if (!isset($anggotaPernahPinjam[$ang->noktp]))
-            <form action="/pendaftar/hapus/{{ $ang->noktp }}" method="post" class="d-inline">
-              @method('delete')
-              @csrf
-              <button class="btn btn-danger btn-sm mb-1" onclick="return confirm('Are you sure?')">
-                Hapus Permanen
-              </button>
-            </form>
+              <form action="/pendaftar/hapus/{{ $ang->noktp }}" method="post" class="d-inline">
+                @method('delete')
+                @csrf
+                <button class="btn btn-danger btn-sm mb-1" onclick="return confirm('Are you sure?')">
+                  Hapus Permanen
+                </button>
+              </form>
             @endif
           </td>
         </tr>
